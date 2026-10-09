@@ -116,8 +116,6 @@ HubSpot's Stripe sync copies live PaymentIntents only. Test payments, \$0 comp t
 
 **Patterns:** Webhooks without middleware · Data mirroring · Router / fan-out · Idempotency keys · Test vs prod isolation · Backfill
 
-**Code:** [stripe-webhooks-to-hubspot-custom-events](https://github.com/carljibrilsulaimanii/stripe-webhooks-to-hubspot-custom-events) · [hubspot-stripe-payment-product-names-and-routing](https://github.com/carljibrilsulaimanii/hubspot-stripe-payment-product-names-and-routing) · [stripe-test-mode-to-hubspot-payment-mirror](https://github.com/carljibrilsulaimanii/stripe-test-mode-to-hubspot-payment-mirror) · [hubspot-stripe-zero-dollar-checkout-sync](https://github.com/carljibrilsulaimanii/hubspot-stripe-zero-dollar-checkout-sync)
-
 > "I threw away two versions on purpose. Modeling on charges was wrong for subscriptions, and finding that out in one day was cheaper than reporting on the wrong grain for a year."
 
 ![Stripe Revenue Mirror & Payment Routing diagram](diagrams/02-stripe-revenue-mirror-and-payment-routing.svg)
@@ -163,8 +161,6 @@ flowchart TD
 
 **Patterns:** Server-side conversions · Deduplication · First-party cookies · Meta CAPI · Google Ads API
 
-**Code:** [hubspot-order-form-stripe-checkout-link-integration](https://github.com/carljibrilsulaimanii/hubspot-order-form-stripe-checkout-link-integration) · [hubspot-stripe-utm-attribution](https://github.com/carljibrilsulaimanii/hubspot-stripe-utm-attribution) · [hubspot-capi-server-side-lead-and-purchase-conversions-meta-google](https://github.com/carljibrilsulaimanii/hubspot-capi-server-side-lead-and-purchase-conversions-meta-google) · [claude-meta-ads-api-access-without-mcp](https://github.com/carljibrilsulaimanii/claude-meta-ads-api-access-without-mcp)
-
 > "Every failure in attribution is silent. A double count or a lost sale doesn't error; it just teaches the campaign the wrong thing. So every step in this pipeline ends in a check."
 
 ![Conversion Attribution Pipeline diagram](diagrams/03-conversion-attribution-pipeline.svg)
@@ -208,8 +204,6 @@ Every weekly class was launched by hand: titles, dates, YouTube links, SMS lists
 - Permanent restream redirects update when the class flips, so nobody rushes a new YouTube link at the end of a live class.
 
 **Patterns:** Configuration-driven design · Lifecycle state machine · Time-zone correctness · Platform parity · Vendor replacement
-
-**Code:** [ghl-custom-values-in-hubspot-for-dynamically-updating-funnels](https://github.com/carljibrilsulaimanii/ghl-custom-values-in-hubspot-for-dynamically-updating-funnels) · [custom-add-to-calendar-bridge](https://github.com/carljibrilsulaimanii/custom-add-to-calendar-bridge) · [gohighlevel-slicktext-sms-sync-and-campaign-scheduler](https://github.com/carljibrilsulaimanii/gohighlevel-slicktext-sms-sync-and-campaign-scheduler)
 
 > "I moved the launch from a checklist to a record. Change one configuration object and every page, calendar link, SMS campaign and tag for that class follows."
 
@@ -255,8 +249,6 @@ Members bought in Mighty Networks and paid in Stripe, but the CRM did not know w
 
 **Patterns:** Event router · Churn prevention · Dunning · Diff-based sync · Engagement scoring
 
-**Code:** [mighty-networks-webhook-router-gohighlevel](https://github.com/carljibrilsulaimanii/mighty-networks-webhook-router-gohighlevel) · [stripe-gohighlevel-failed-payment-recovery](https://github.com/carljibrilsulaimanii/stripe-gohighlevel-failed-payment-recovery) · [mighty-networks-hubspot-last-visited-sync](https://github.com/carljibrilsulaimanii/mighty-networks-hubspot-last-visited-sync) · [mighty-networks-course-progress-to-gohighlevel-custom-objects](https://github.com/carljibrilsulaimanii/mighty-networks-course-progress-to-gohighlevel-custom-objects) · [gohighlevel-conversation-ai-onboarding-activation-bot](https://github.com/carljibrilsulaimanii/gohighlevel-conversation-ai-onboarding-activation-bot)
-
 > "The cancel webhook fires the moment someone clicks cancel, weeks before they lose access. Holding them until a week before the end date turned a lost member into a save window."
 
 ![Member Lifecycle & Retention diagram](diagrams/05-member-lifecycle-and-retention.svg)
@@ -301,8 +293,6 @@ Inbound calls went unhandled, every marketing blast flooded reps' inboxes with S
 
 **Patterns:** AI agent tooling · Two-way sync · Round robin · Role-based access · Aloware · HubSpot · GHL
 
-**Code:** [aloware-ai-hubspot-scheduling](https://github.com/carljibrilsulaimanii/aloware-ai-hubspot-scheduling) · [mighty-networks-hubspot-dm-integration](https://github.com/carljibrilsulaimanii/mighty-networks-hubspot-dm-integration) · [filtered-sms-inboxes-auto-update-outbound-channel](https://github.com/carljibrilsulaimanii/filtered-sms-inboxes-auto-update-outbound-channel)
-
 > "Most failures in this stack are silent: a 200 response with nothing booked. I design every integration so the last step is a check a non-engineer can run."
 
 ![Sales Routing & Conversations diagram](diagrams/06-sales-routing-and-conversations.svg)
@@ -343,8 +333,6 @@ Support, sales and member questions arrived around the clock across SMS, Faceboo
 - Operations: Claude connected to GoHighLevel and HubSpot through MCP with read-only scopes, and to Meta ad accounts through the Graph API. Weekly reporting is assembled by Claude from seven sources (Slack, calendar, email, Asana, CRM audit logs and AI chat exports).
 
 **Patterns:** LLM agents · Human in the loop · Transcription pipelines · MCP · Python · Gemini · Claude
-
-**Code:** [twilio-call-recordings-bulk-transcription-elevateai](https://github.com/carljibrilsulaimanii/twilio-call-recordings-bulk-transcription-elevateai) · [gemini-long-meeting-transcription-with-speaker-labels](https://github.com/carljibrilsulaimanii/gemini-long-meeting-transcription-with-speaker-labels) · [youtube-live-chat-questions-export](https://github.com/carljibrilsulaimanii/youtube-live-chat-questions-export) · [python-utility-scripts](https://github.com/carljibrilsulaimanii/python-utility-scripts)
 
 > "The bot is only as good as what it has read. Most of the work was the pipeline that turned years of calls and classes into something it could read."
 
@@ -431,8 +419,6 @@ Contacts were split across ActiveCampaign and two GoHighLevel accounts with heav
 
 **Patterns:** Data migration · Deduplication · Build vs buy · Cost optimization · Post-mortems
 
-**Code:** [activecampaign-bulk-contact-delete](https://github.com/carljibrilsulaimanii/activecampaign-bulk-contact-delete)
-
 > "Knowing when to stop scripting is part of the job. The delete script worked, but at one call per second a support ticket was the faster architecture."
 
 ![CRM Consolidation & Platform Migration diagram](diagrams/09-crm-consolidation-and-platform-migration.svg)
@@ -469,8 +455,6 @@ flowchart LR
 - Kept deliberately simple: standard objects first, one custom object, one automation. Delivered with a click-by-click build plan, QA and verification doc, and a timed training script.
 
 **Patterns:** Salesforce · Web-to-Lead · Record types · Flow · Path
-
-**Code:** [salesforce-referral-to-delivered-project](https://github.com/carljibrilsulaimanii/salesforce-referral-to-delivered-project) · [video walkthrough](https://youtu.be/ps1hYrhsKBM)
 
 ![Salesforce Referral-to-Delivery diagram](diagrams/10-salesforce-referral-to-delivery.svg)
 
