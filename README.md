@@ -73,7 +73,12 @@ Revenue, ad spend and class attendance lived in Stripe, Meta, GoHighLevel and sp
 
 > "I picked one key every system could compute, class date plus topic, and made a workflow stamp it everywhere. That one field turned three disconnected datasets into a cost-per-class report."
 
-```mermaid
+![HubSpot Revenue Data Model diagram](diagrams/01-hubspot-revenue-data-model.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 erDiagram
   CONTACT ||--o{ CLASS_REGISTRATION : registers
   CONTACT ||--o{ PAYMENT_MIRROR : pays
@@ -86,6 +91,8 @@ erDiagram
     string key "date + topic"
   }
 ```
+
+</details>
 
 #### Stripe Revenue Mirror & Payment Routing
 
@@ -113,13 +120,18 @@ HubSpot's Stripe sync copies live PaymentIntents only. Test payments, \$0 comp t
 
 > "I threw away two versions on purpose. Modeling on charges was wrong for subscriptions, and finding that out in one day was cheaper than reporting on the wrong grain for a year."
 
-```mermaid
+![Stripe Revenue Mirror & Payment Routing diagram](diagrams/02-stripe-revenue-mirror-and-payment-routing.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
-  ST[Stripe eventslive · test · $0 checkout] -- webhook --> HS[HubSpot workflow trigger]
-  HS --> PM[(Payment mirror80 properties)]
-  HS -- test mode --> TM[Same objectenv = Test · unique key]
+  ST[Stripe events<br/>live · test · $0 checkout] -- webhook --> HS[HubSpot workflow trigger]
+  HS --> PM[(Payment mirror<br/>80 properties)]
+  HS -- test mode --> TM[Same object<br/>env = Test · unique key]
   HS -- $0 session --> OR[(Orders object)]
-  PM --> EN[Custom code: product namesfrom checkout line items]
+  PM --> EN[Custom code: product names<br/>from checkout line items]
   EN --> R{Master payment router}
   R --> T1[Tickets]
   R --> T2[Accelerator]
@@ -127,6 +139,8 @@ flowchart TD
   R --> T4[Membership]
   R --> T5[Kits & upsells]
 ```
+
+</details>
 
 #### Conversion Attribution Pipeline
 
@@ -153,17 +167,24 @@ flowchart TD
 
 > "Every failure in attribution is silent. A double count or a lost sale doesn't error; it just teaches the campaign the wrong thing. So every step in this pipeline ends in a check."
 
-```mermaid
+![Conversion Attribution Pipeline diagram](diagrams/03-conversion-attribution-pipeline.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
-  AD[Ad clickUTMs + click IDs] --> CK[First-party cookie]
-  CK --> F1[Order form step 1contact created]
-  F1 --> PL[Stripe Payment Linkemail + campaign attached]
-  PL --> SU[Success URLcarries UTMs]
+  AD[Ad click<br/>UTMs + click IDs] --> CK[First-party cookie]
+  CK --> F1[Order form step 1<br/>contact created]
+  F1 --> PL[Stripe Payment Link<br/>email + campaign attached]
+  PL --> SU[Success URL<br/>carries UTMs]
   SU --> WF[Workflow reads Checkout Session]
-  WF --> PM[(Payment recordamount + source)]
+  WF --> PM[(Payment record<br/>amount + source)]
   PM --> M[Meta CAPI Purchase]
   PM --> G[Google Ads conversion]
 ```
+
+</details>
 
 ### Domain 2 · Funnel engine & member lifecycle
 
@@ -192,11 +213,16 @@ Every weekly class was launched by hand: titles, dates, YouTube links, SMS lists
 
 > "I moved the launch from a checklist to a record. Change one configuration object and every page, calendar link, SMS campaign and tag for that class follows."
 
-```mermaid
+![Free Class Engine diagram](diagrams/04-free-class-engine.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
-  CFG[(Class configurationGHL custom values → HubSpot object)] --> PG[Pages · countdown · replay]
+  CFG[(Class configuration<br/>GHL custom values → HubSpot object)] --> PG[Pages · countdown · replay]
   CFG --> CAL[Add to Calendar bridge]
-  CFG --> SMS[9 SlickText campaignsET → UTC]
+  CFG --> SMS[9 SlickText campaigns<br/>ET → UTC]
   CFG --> RD[Redirects + restream link]
   PG --> R1[Registration record]
   R1 --> A{Attended?}
@@ -205,6 +231,8 @@ flowchart LR
   R4 --> OF[Offer]
   R5 --> OF
 ```
+
+</details>
 
 #### Member Lifecycle & Retention
 
@@ -231,18 +259,25 @@ Members bought in Mighty Networks and paid in Stripe, but the CRM did not know w
 
 > "The cancel webhook fires the moment someone clicks cancel, weeks before they lose access. Holding them until a week before the end date turned a lost member into a save window."
 
-```mermaid
+![Member Lifecycle & Retention diagram](diagrams/05-member-lifecycle-and-retention.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   MN[Mighty Networks webhook] --> R{Router on event_type}
   R -- purchased --> P[Tag plan · start onboarding]
-  R -- canceled --> C[Hold until 7 daysbefore access ends] --> DS[Downsell sequence]
-  R -- course progress --> CO[(Progress recordper member per course)]
+  R -- canceled --> C[Hold until 7 days<br/>before access ends] --> DS[Downsell sequence]
+  R -- course progress --> CO[(Progress record<br/>per member per course)]
   R -- joined --> J[Create contact]
   ST[Stripe] -- charge.failed --> FR[Record decline reason]
-  ST -- invoice.payment_failed --> FS[Sequence by reason+ invoice link]
+  ST -- invoice.payment_failed --> FS[Sequence by reason<br/>+ invoice link]
   LV[Daily last-visited sync] --> SC[Hot · warm · cold · dormant · frozen]
   P --> OB[Activation check-in bot]
 ```
+
+</details>
 
 ### Domain 3 · Conversations, sales routing & AI agents
 
@@ -270,16 +305,23 @@ Inbound calls went unhandled, every marketing blast flooded reps' inboxes with S
 
 > "Most failures in this stack are silent: a 200 response with nothing booked. I design every integration so the last step is a check a non-engineer can run."
 
-```mermaid
+![Sales Routing & Conversations diagram](diagrams/06-sales-routing-and-conversations.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   C[Contact SMS or call] --> AI[Aloware AI agent]
-  AI -- book --> RR[HubSpot round-robinmeeting link]
+  AI -- book --> RR[HubSpot round-robin<br/>meeting link]
   RR --> REP[Rep calendar + meeting on contact]
   MB[Marketing text reply] --> SORT{AI sorts reply}
-  SORT -- buyer --> SL[Toll-free sales line+ owner]
+  SORT -- buyer --> SL[Toll-free sales line<br/>+ owner]
   SORT -- noise --> X[Stays in marketing]
-  MDM[Mighty Networks DM] <-- 15 / 5 min --> HN[HubSpot contact notes+ reply property]
+  MDM[Mighty Networks DM] <-- 15 / 5 min --> HN[HubSpot contact notes<br/>+ reply property]
 ```
+
+</details>
 
 #### Conversational AI & Knowledge Pipeline
 
@@ -306,18 +348,25 @@ Support, sales and member questions arrived around the clock across SMS, Faceboo
 
 > "The bot is only as good as what it has read. Most of the work was the pipeline that turned years of calls and classes into something it could read."
 
-```mermaid
+![Conversational AI & Knowledge Pipeline diagram](diagrams/07-conversational-ai-and-knowledge-pipeline.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   REC[Call recordings] --> TR[Bulk transcription]
-  MTG[7+ hr meetings] --> GM[Gemini chunks+ speaker labels]
+  MTG[7+ hr meetings] --> GM[Gemini chunks<br/>+ speaker labels]
   YT[YouTube Live chat] --> Q[Question export]
-  TR --> KB[(Knowledge baseCSV under 50 MB)]
+  TR --> KB[(Knowledge base<br/>CSV under 50 MB)]
   GM --> KB
   Q --> KB
-  KB --> BOT[Conversation AI agentSMS · social · community]
+  KB --> BOT[Conversation AI agent<br/>SMS · social · community]
   BOT -- thumbs down --> TRN[Support retrains]
   REP[Rep sends message] -. pause bot .-> BOT
 ```
+
+</details>
 
 ### Domain 4 · Platform operations & migration
 
@@ -343,16 +392,23 @@ The CRM's built-in sender kept pausing at volume, was the largest line on the CR
 
 > "There were two unrelated faults at once: a bad PTR record and a broken tracking webhook. The second made the first look much worse than it was. I trust delivery logs over dashboards."
 
-```mermaid
+![Email Infrastructure Re-architecture diagram](diagrams/08-email-infrastructure-re-architecture.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
-  CRM[CRM campaigns] --> MG[Mailgundedicated subdomain]
-  MG --> DNS{DNS + authSPF · DKIM 2048 · DMARC · PTR}
+  CRM[CRM campaigns] --> MG[Mailgun<br/>dedicated subdomain]
+  MG --> DNS{DNS + auth<br/>SPF · DKIM 2048 · DMARC · PTR}
   DNS --> INBOX[Inbox providers]
   MG -- delivery webhooks --> CRM
-  SUP[Suppressionhard bounces · 90-day non-openers] --> CRM
-  MT[mail-tester gatebefore 1,000+ sends] --> CRM
+  SUP[Suppression<br/>hard bounces · 90-day non-openers] --> CRM
+  MT[mail-tester gate<br/>before 1,000+ sends] --> CRM
   MG -. failover .- ALT[Backup sender]
 ```
+
+</details>
 
 #### CRM Consolidation & Platform Migration
 
@@ -379,16 +435,23 @@ Contacts were split across ActiveCampaign and two GoHighLevel accounts with heav
 
 > "Knowing when to stop scripting is part of the job. The delete script worked, but at one call per second a support ticket was the faster architecture."
 
-```mermaid
+![CRM Consolidation & Platform Migration diagram](diagrams/09-crm-consolidation-and-platform-migration.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
-  AC[(ActiveCampaign)] --> DD{Dedupe520K+ unique}
+  AC[(ActiveCampaign)] --> DD{Dedupe<br/>520K+ unique}
   G1[(GHL account A)] --> DD
   G2[(GHL account B)] --> DD
   DD --> GHL[(One GHL account)]
-  GHL -- contact sync webhook --> HS[(HubSpotrevenue system of record)]
+  GHL -- contact sync webhook --> HS[(HubSpot<br/>revenue system of record)]
   AC -. retired .-> X[Wiped]
   CF[ClickFunnels · WordPress] -. moved .-> GHL
 ```
+
+</details>
 
 ### Independent build · Sept 2026
 
@@ -409,7 +472,12 @@ flowchart LR
 
 **Code:** [salesforce-referral-to-delivered-project](https://github.com/carljibrilsulaimanii/salesforce-referral-to-delivered-project) · [video walkthrough](https://youtu.be/ps1hYrhsKBM)
 
-```mermaid
+![Salesforce Referral-to-Delivery diagram](diagrams/10-salesforce-referral-to-delivery.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   F[Partner referral form] --> L[Lead · referral]
   L --> Q{Qualified?}
@@ -419,6 +487,8 @@ flowchart LR
   FL --> PR[Project created]
   FL --> CL[Account → Client]
 ```
+
+</details>
 
 ## Incluzion (Spendwith Corp) and client systems
 
@@ -448,7 +518,12 @@ Every ATS exposes jobs in a different shape. Greenhouse nests location under `of
 
 > "I decoupled sources from the consumer with a canonical schema, which is the same move you make in an iPaaS or a CDP when you onboard a new connector."
 
-```mermaid
+![ATS Translator API diagram](diagrams/11-ats-translator-api.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   GH[Greenhouse] --> T
   LV[Lever] --> T
@@ -457,9 +532,11 @@ flowchart LR
   RB[RecruiterBox] --> T
   SR[SmartRecruiters] --> T
   JZ[JazzHR / Applytojob] --> T
-  T{{Translatorfield mapping}} --> C[(Canonical joblocation · titlecontent · company)]
+  T{{Translator<br/>field mapping}} --> C[(Canonical job<br/>location · title<br/>content · company)]
   C --> F[Job posting form]
 ```
+
+</details>
 
 #### Job Import Pipeline
 
@@ -483,19 +560,26 @@ VC funds publish portfolio jobs two ways: through Getro-hosted boards (Backstage
 
 > "The parent record has to exist before the child imports, and the match key prevents duplicates on every re-run. That is the same ordering problem as loading Accounts before Contacts and Opportunities in a CRM migration."
 
-```mermaid
+![Job Import Pipeline diagram](diagrams/12-job-import-pipeline.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   A[VC portfolio jobs] --> B{Hosted by Getro?}
   B -- Yes --> G[Getro integration]
   B -- No --> J[JobSpikr integration]
-  G --> M{Company exists?name + Getro ID}
+  G --> M{Company exists?<br/>name + Getro ID}
   J --> M
-  M -- Yes --> X[Attach jobs toexisting profile]
-  M -- No --> N[Create company profileassign to fund user] --> X
-  X --> D[(Job recorduser · company · imported flag)]
-  D --> B1[Incluzion job boardfilters: Imported · Getro · User]
-  D --> B2[White-label boardcompany.incluzion.co]
+  M -- Yes --> X[Attach jobs to<br/>existing profile]
+  M -- No --> N[Create company profile<br/>assign to fund user] --> X
+  X --> D[(Job record<br/>user · company · imported flag)]
+  D --> B1[Incluzion job board<br/>filters: Imported · Getro · User]
+  D --> B2[White-label board<br/>company.incluzion.co]
 ```
+
+</details>
 
 **Shipped: from the 2021 sales deck**
 
@@ -528,7 +612,12 @@ Hiring managers post openings on LinkedIn and Twitter, not on job boards. The pl
 
 > "I designed the record to round-trip: the CRM contact gets the job URL back, so outreach and attribution run off one ID. I was CTO on this one."
 
-```mermaid
+![Incluzion Platform Map diagram](diagrams/13-incluzion-platform-map.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 sequenceDiagram
   participant S as Social post
   participant X as Chrome extension
@@ -546,6 +635,8 @@ sequenceDiagram
   B->>S: Reply with CTA + listing link
   P-->>P: Log status to tracking dashboard
 ```
+
+</details>
 
 ### Domain 3 · Product specification
 
@@ -571,19 +662,26 @@ Extend an existing job board into a marketplace without forking it. Two personas
 
 > "I reused the job object and changed behavior with one flag. Less code, one source of truth, and the marketplace inherits every fix to the base board."
 
-```mermaid
+![Split Placement Network diagram](diagrams/14-split-placement-network.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   N[New job form] --> F{Split placement?}
-  F -- No --> P[Normal flowpayment, standard board]
-  F -- Yes --> S[Skip paymentconfirmation screen]
+  F -- No --> P[Normal flow<br/>payment, standard board]
+  F -- Yes --> S[Skip payment<br/>confirmation screen]
   S --> O[(Job order #)]
-  O --> SB[Split placement boardfiltered view of main board]
-  SB --> CR[Candidate recruiterMarketplace · Saved · Candidates]
-  CR --> M[Job modalDescription · Insights Q&A]
+  O --> SB[Split placement board<br/>filtered view of main board]
+  SB --> CR[Candidate recruiter<br/>Marketplace · Saved · Candidates]
+  CR --> M[Job modal<br/>Description · Insights Q&A]
   M --> SUB[Submit candidate]
-  O --> JR[Job owner dashboardapplications · notes · funnel counts]
+  O --> JR[Job owner dashboard<br/>applications · notes · funnel counts]
   SUB --> JR
 ```
+
+</details>
 
 ### Domain 4 · Revenue architecture
 
@@ -608,10 +706,15 @@ Buyers ranged from a single hiring company to VC funds and chambers of commerce.
 
 > "The segmentation key was the prospect's existing stack. Product packaging followed from what they already had integrated."
 
-```mermaid
+![Segmented GTM Funnel diagram](diagrams/15-segmented-gtm-funnel.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
-  O[Segmented outreach] --> V1[VC funduses Getro]
-  O --> V2[VC fundno Getro]
+  O[Segmented outreach] --> V1[VC fund<br/>uses Getro]
+  O --> V2[VC fund<br/>no Getro]
   O --> C[Chamber of commerce]
   O --> T[Trade org]
   O --> S[Single company]
@@ -622,8 +725,10 @@ flowchart TD
   S --> P{Plan}
   P --> P1[Free post]
   P --> P2[Paid post $225–275]
-  P --> P3[Subscription$100 · $150 · $290 · $700 /mo]
+  P --> P3[Subscription<br/>$100 · $150 · $290 · $700 /mo]
 ```
+
+</details>
 
 ### Domain 5 · Lifecycle automation
 
@@ -649,15 +754,22 @@ Leads from paid social went cold within hours. The client needed every lead cont
 
 > "Every step has a trigger, a wait, a channel and an exit. The quiet-hours rule and the call-in exit are what keep a sequence like this from feeling automated."
 
-```mermaid
+![Speed-to-Lead Automation diagram](diagrams/16-speed-to-lead-automation.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   L[Lead opt-in] --> Q{Booked?}
   Q -- No --> A1[SMS +10m] --> A2[Email +5m] --> A3[Booking link +1m]
   A3 --> A4[Nudges: 130m · 24h · 2d · 4d · 7d] --> A5[Waitlist close-out]
-  Q -- Requested --> B1[SMS +8mor 7:30 AM next day] --> B2[24h · 48h · 72h follow-ups]
+  Q -- Requested --> B1[SMS +8m<br/>or 7:30 AM next day] --> B2[24h · 48h · 72h follow-ups]
   Q -- Confirmed --> C1[Confirm SMS + email] --> C2[48h reminder] --> C3[24h reply-YES] --> C4[75m directions]
   L -. inbound call .-> X[Exit sequence]
 ```
+
+</details>
 
 ### Domain 6 · Operating model
 
@@ -678,7 +790,12 @@ flowchart TD
 
 > "Architecture includes who runs it. I mapped each system to an owner before we built, so nothing shipped without someone accountable."
 
-```mermaid
+![Incluzion Operating Model diagram](diagrams/17-incluzion-operating-model.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   I((Incluzion)) --> P[Product]
   I --> G[Growth]
@@ -692,6 +809,8 @@ flowchart LR
   O --> O1[Grants + auto-submission]
   O --> O2[Ops · Onboarding · HR]
 ```
+
+</details>
 
 ## Pay Cell Systems Inc.: prepaid wireless payments
 
@@ -725,18 +844,25 @@ Small wireless stores could only take refill payments at the counter. Distributo
 
 > "I kept funds and inventory on separate rails. The retailer or distributor stayed merchant of record, so we avoided money-transmitter exposure, and the platform only orchestrated."
 
-```mermaid
+![Cell Pay Distribution Platform diagram](diagrams/18-cell-pay-distribution-platform.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   S[Subscriber] --> C{{Phone · Text · Web · App}}
-  C --> CP[Cell Paynumber validation + orchestration]
-  CP -- card auth --> G[Merchant's gatewayAuthorize.net · Stripe · PayPal]
-  G -- funds --> M[(Retailer or distributorbank account)]
-  CP -- pull PIN --> D[Distributor airtime accountEmida · Z-Prepay · Prepay Nation]
+  C --> CP[Cell Pay<br/>number validation + orchestration]
+  CP -- card auth --> G[Merchant's gateway<br/>Authorize.net · Stripe · PayPal]
+  G -- funds --> M[(Retailer or distributor<br/>bank account)]
+  CP -- pull PIN --> D[Distributor airtime account<br/>Emida · Z-Prepay · Prepay Nation]
   D --> T[Carrier / TSP]
   CP -- load airtime --> S
   CP -- fee $1–2 + $14.95/mo --> PC[Pay Cell Systems]
   D -- commissions --> R[Retailer]
 ```
+
+</details>
 
 **Originals**
 
@@ -772,21 +898,28 @@ Nine carriers, two fulfillment types and a caller who can hang up at any step. T
 
 > "The hardest part was the partial-failure case: card approved, airtime not delivered. I gave it its own branch, its own script and a human handoff."
 
-```mermaid
+![Pay-by-Phone IVR diagram](diagrams/19-pay-by-phone-ivr.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   A[Caller dials hotline] --> B[Store or promo code]
   B --> C[Carrier · number · amount]
   C --> D{Accept fee?}
   D -- No --> X[Goodbye]
-  D -- Hang up --> H[Recovery SMSwith fee waiver code]
+  D -- Hang up --> H[Recovery SMS<br/>with fee waiver code]
   D -- Yes --> E[Card → Authorize.net]
   E -- Declined --> X
   E -- Approved --> F[Airtime API purchase]
-  F -- RTR carrier --> G[Payment addedto account]
-  F -- PIN carrier --> P[Read PIN + load stepsSMS copy]
-  F -- Error --> CS[Transfer tocustomer service]
-  P -. async load .-> W[Hold untilservo confirms]
+  F -- RTR carrier --> G[Payment added<br/>to account]
+  F -- PIN carrier --> P[Read PIN + load steps<br/>SMS copy]
+  F -- Error --> CS[Transfer to<br/>customer service]
+  P -. async load .-> W[Hold until<br/>servo confirms]
 ```
+
+</details>
 
 **Originals**
 
@@ -818,7 +951,12 @@ An unattended screen in a store has to recover from walk-aways at every step and
 
 > "The kiosk and the IVR were two front ends on one set of services. Adding a channel meant a new UI, not a new payment stack."
 
-```mermaid
+![Self-Service Payment Kiosk diagram](diagrams/20-self-service-payment-kiosk.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 stateDiagram-v2
   [*] --> Init: load catalog, subscribe to card reader
   Init --> Menu
@@ -838,6 +976,8 @@ stateDiagram-v2
   Pay --> Menu: 3 min idle
   Confirm --> Menu: 1 min idle
 ```
+
+</details>
 
 **Originals**
 
@@ -865,7 +1005,12 @@ The phone app posts to a payment gateway service, which looks up the card with C
 
 > "When a partner has no API, you automate the interface they do have. The dialer was RPA on a phone line, years before that had a name."
 
-```mermaid
+![Fulfillment & Card Authentication diagram](diagrams/21-fulfillment-and-card-authentication.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 sequenceDiagram
   actor U as User
   participant A as Phone app
@@ -882,6 +1027,8 @@ sequenceDiagram
   G->>C: Authenticate
   C-->>G: Values for back-end API
 ```
+
+</details>
 
 **Originals**
 
@@ -914,16 +1061,23 @@ Cell Pay solved payments, but dealers also needed suppliers, messaging, support 
 
 > "Each box had a price and a sourcing decision. Half the roadmap was integrate or white-label, which kept the build budget for the parts that were ours."
 
-```mermaid
+![Dealer Portal Roadmap diagram](diagrams/22-dealer-portal-roadmap.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart TD
   P((Prepaid-Wireless-Dealers.com))
-  P --> C1[Contentnews · supplier links · forums $650]
-  P --> C2[Messagingmass text $800 · 4¢/msg]
-  P --> C3[Data servicesnumber + PIN validators]
-  P --> C4[Buy / white-labelhosted IVR · call center SaaS $150/mo]
-  P --> C5[Channelsmobile app $2,300 · POS]
-  P --> C6[PartnersISO reporting · ads · affiliates]
+  P --> C1[Content<br/>news · supplier links · forums $650]
+  P --> C2[Messaging<br/>mass text $800 · 4¢/msg]
+  P --> C3[Data services<br/>number + PIN validators]
+  P --> C4[Buy / white-label<br/>hosted IVR · call center SaaS $150/mo]
+  P --> C5[Channels<br/>mobile app $2,300 · POS]
+  P --> C6[Partners<br/>ISO reporting · ads · affiliates]
 ```
+
+</details>
 
 **Original**
 
@@ -948,7 +1102,12 @@ flowchart TD
 
 > "Every state change emits a public event. The marketing was a side effect of the workflow."
 
-```mermaid
+![Feature Marketplace Sketch diagram](diagrams/23-feature-marketplace-sketch.svg)
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
+```text
 flowchart LR
   B[Buyer sign-up] --> L[Browse artists]
   SE[Seller sign-up] --> P[Artist profile]
@@ -956,9 +1115,11 @@ flowchart LR
   P --> R
   R --> A{Artist agrees?}
   A -- Yes --> E[(Escrow)]
-  E --> D[Artist deliversto Dropbox]
-  D --> T[Release funds+ announce tweet]
+  E --> D[Artist delivers<br/>to Dropbox]
+  D --> T[Release funds<br/>+ announce tweet]
 ```
+
+</details>
 
 **Original**
 
