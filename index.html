@@ -1,0 +1,1241 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Systems and integration architecture portfolio of C. Jibril Sulaiman II, 2011 to 2026.">
+<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0;font:14px system-ui,sans-serif}</style></head><body>
+<title>Solutions Architecture Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: masthead, capability matrix, then one "system record" per Lucid diagram grouped by architecture domain */
+:root{
+  --bg:#f5f7f8; --surface:#ffffff; --ink:#152126; --muted:#56666d; --line:#d7dfe2;
+  --accent:#0f6b6f; --accent-soft:#e1efef; --warn:#9a5b12; --warn-soft:#f6ecdf;
+  --f-display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1517; --surface:#162024; --ink:#e3eaec; --muted:#93a4aa; --line:#2a383d;
+  --accent:#5cc4bb; --accent-soft:#183133; --warn:#e2a35a; --warn-soft:#2e2418; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1517; --surface:#162024; --ink:#e3eaec; --muted:#93a4aa; --line:#2a383d;
+  --accent:#5cc4bb; --accent-soft:#183133; --warn:#e2a35a; --warn-soft:#2e2418; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f-body);padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono)}
+.label{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+header.mast{padding-block:48px 28px;border-bottom:1px solid var(--line);display:grid;gap:16px}
+header.mast h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;font-stretch:80%;letter-spacing:-.01em}
+header.mast p{max-width:66ch;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px}
+.meta span{font:13px var(--f-mono);color:var(--muted)}
+.meta b{color:var(--ink);font-weight:500}
+
+section{padding-block:40px 8px}
+section>h2{font-size:1.6rem;font-weight:700;font-stretch:85%;margin-bottom:6px}
+section>.intro{color:var(--muted);max-width:66ch;margin:0 0 20px}
+
+.matrix-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+table.matrix{border-collapse:collapse;width:100%;min-width:760px;font-size:13px}
+.matrix th,.matrix td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center}
+.matrix th:first-child,.matrix td:first-child{text-align:left;white-space:nowrap}
+.matrix thead th{font:500 11px/1.3 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);vertical-align:bottom}
+.matrix tbody tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.dot.half{background:transparent;border:2px solid var(--accent)}
+
+.domain{margin-top:36px}
+.domain>.label{display:block;margin-bottom:12px;color:var(--accent)}
+article.sys{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-bottom:20px;overflow:hidden}
+.sys-head{padding:20px 22px 14px;display:grid;gap:8px;border-bottom:1px solid var(--line)}
+.sys-head h3{font-size:1.35rem;font-weight:700;font-stretch:88%}
+.sys-head .sub{color:var(--muted);margin:0;max-width:70ch}
+.src{display:flex;flex-wrap:wrap;gap:6px 14px;font:12px var(--f-mono);color:var(--muted)}
+.sys-body{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0}
+.sys-body>div{padding:18px 22px;min-width:0}
+.sys-body>div+div{border-left:1px solid var(--line)}
+@media (max-width:760px){.sys-body{grid-template-columns:1fr}.sys-body>div+div{border-left:0;border-top:1px solid var(--line)}}
+.sys-body h4{margin:0 0 6px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sys-body p{margin:0 0 14px}
+.sys-body ul{margin:0 0 14px;padding-left:18px}
+.sys-body li{margin-bottom:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{font:12px var(--f-mono);padding:3px 8px;border-radius:3px;background:var(--accent-soft);color:var(--ink)}
+.talk{border-left:3px solid var(--accent);padding:8px 12px;background:var(--accent-soft);margin:0;font-size:14px}
+.diagram{overflow-x:auto;padding:4px 0 0}
+pre.mermaid{margin:0;background:transparent;font-size:13px}
+
+.matrix tr.era td{background:var(--accent-soft);font:500 11px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent);text-align:left}
+.era-head{margin-top:48px;padding-top:20px;border-top:2px solid var(--ink);display:grid;gap:4px}
+.era-head h2{font-size:1.9rem;font-weight:800;font-stretch:80%}
+.era-head p{margin:0;color:var(--muted);max-width:68ch}
+.originals{grid-column:1/-1;border-top:1px solid var(--line);padding:16px 22px 20px;min-width:0}
+.originals h4{margin:0 0 10px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.thumbs a{display:grid;gap:6px;text-decoration:none;color:var(--muted);font:12px/1.35 var(--f-mono)}
+.thumbs img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);border-radius:4px;background:#fff}
+.thumbs a:hover img{border-color:var(--accent)}
+.note{background:var(--warn-soft);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.note h3{font-size:1.05rem;margin-bottom:8px;color:var(--warn)}
+.note ul{margin:0;padding-left:18px}
+.note li{margin-bottom:6px}
+footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:13px}
+.repos{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0 0 14px;font:12px/1.5 var(--f-mono)}
+.repos a{word-break:break-all}
+</style>
+
+<div class="wrap">
+<header class="mast">
+  <span class="label">Design archive, 2011 to 2026 · organized for solutions architecture roles</span>
+  <h1>C. Jibril Sulaiman II<br>Systems &amp; Integration Architecture</h1>
+  <p>Original architecture work across three companies and fifteen years: the Empify revenue platform (HubSpot, Stripe, community, SMS and ad integrations, current), the Incluzion jobs and community platform, and the Pay Cell Systems prepaid payments platform (IVR, kiosk, distributor network). Each record states the problem, the design decisions, the patterns it demonstrates, and a talking point for interviews. Original diagrams are shown where they exist, and Empify records link to the public code.</p>
+  <div class="meta">
+    <span><b>23</b> systems documented</span>
+    <span><b>30</b> original diagrams</span>
+    <span><b>AWS</b> Certified Solutions Architect, Associate</span>
+  </div>
+</header>
+
+<section id="matrix">
+  <h2>Pattern coverage</h2>
+  <p class="intro">Which architecture patterns each diagram shows. A filled dot means the pattern is the core of the design; a ring means it appears as a supporting element.</p>
+  <div class="matrix-wrap">
+  <table class="matrix">
+    <thead><tr>
+      <th>Diagram</th><th>Payment<br>processing</th><th>Schema<br>normalization</th><th>API / webhook<br>integration</th><th>Idempotent<br>import &amp; dedupe</th><th>Multi-tenant<br>/ white label</th><th>Event-driven<br>automation</th><th>Marketplace<br>roles &amp; UX</th><th>Monetization<br>model</th>
+    </tr></thead>
+    <tbody>
+      <tr class="era"><td colspan="9">Empify · Sept 2025 to present</td></tr>
+      <tr><td>HubSpot Revenue Data Model</td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td></td><td></td><td></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Stripe Revenue Mirror &amp; Routing</td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td></tr>
+      <tr><td>Conversion Attribution Pipeline</td><td><span class="dot half"></span></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td></td></tr>
+      <tr><td>Free Class Engine</td><td></td><td></td><td><span class="dot half"></span></td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Member Lifecycle &amp; Retention</td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Sales Routing &amp; Conversations</td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td></tr>
+      <tr><td>Conversational AI &amp; Knowledge</td><td></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td></tr>
+      <tr><td>Email Infrastructure</td><td></td><td></td><td><span class="dot half"></span></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td></td><td></td></tr>
+      <tr><td>CRM Consolidation &amp; Migration</td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td><td></td><td></td></tr>
+      <tr><td>Salesforce Referral-to-Delivery</td><td></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td></td></tr>
+      <tr class="era"><td colspan="9">Incluzion and client work · c. 2019–2021</td></tr>
+      <tr><td>ATS Translator API</td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Job Import Pipeline</td><td></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td></td><td></td></tr>
+      <tr><td>Incluzion Platform Map</td><td></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Split Placement Network</td><td></td><td></td><td></td><td></td><td></td><td></td><td><span class="dot"></span></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Segmented GTM Funnel</td><td></td><td></td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td></tr>
+      <tr><td>Speed-to-Lead Automation</td><td></td><td></td><td><span class="dot half"></span></td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td></tr>
+      <tr><td>Incluzion Operating Model</td><td></td><td></td><td><span class="dot half"></span></td><td></td><td></td><td></td><td><span class="dot half"></span></td><td></td></tr>
+      <tr class="era"><td colspan="9">Pay Cell Systems Inc. · c. 2011–2014</td></tr>
+      <tr><td>Cell Pay Distribution Platform</td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td><td><span class="dot"></span></td></tr>
+      <tr><td>Pay-by-Phone IVR</td><td><span class="dot"></span></td><td><span class="dot half"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Self-Service Payment Kiosk</td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td><td></td><td><span class="dot half"></span></td></tr>
+      <tr><td>Fulfillment &amp; Card Authentication</td><td><span class="dot"></span></td><td></td><td><span class="dot"></span></td><td></td><td></td><td><span class="dot"></span></td><td></td><td></td></tr>
+      <tr><td>Dealer Portal Roadmap</td><td><span class="dot half"></span></td><td></td><td><span class="dot half"></span></td><td></td><td><span class="dot half"></span></td><td></td><td><span class="dot half"></span></td><td><span class="dot"></span></td></tr>
+      <tr><td>Feature Marketplace Sketch</td><td><span class="dot half"></span></td><td></td><td><span class="dot half"></span></td><td></td><td></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td></td></tr>
+      </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="empify">
+  <div class="era-head">
+    <span class="label">Current · Sept 2025 to present · Sr. Manager, Marketing Technology &amp; Revenue Systems</span>
+    <h2>Empify: revenue systems for a financial education company</h2>
+    <p>Function head for marketing technology, reporting to the CEO. The business runs on weekly live free classes (Stocks &amp; ETFs, REITs, Dividends, Retirement) that convert to toolkits, memberships, accelerators and summit tickets. I consolidated three CRMs into GoHighLevel, then built the HubSpot revenue platform from an empty portal in summer 2026, and wired payments, community, SMS, calling, AI agents and ad platforms into one data model. Most builds are published as step-by-step guides with code on GitHub, linked on each record. Scale is shown rounded; internal IDs, financials and names are left out.</p>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain 1 · Data model, revenue &amp; attribution</span>
+
+    <article class="sys" id="hubspot-model">
+      <div class="sys-head">
+        <h3>HubSpot Revenue Data Model</h3>
+        <p class="sub">A custom object model that describes the business HubSpot's stock objects don't: classes, registrations, payments, subscriptions, ad spend, tickets and kits, joined by one session key.</p>
+        <div class="src"><span>Source: HubSpot build-out report (audit log of 44K+ events, July to Sept 2026)</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Revenue, ad spend and class attendance lived in Stripe, Meta, GoHighLevel and spreadsheets. Nobody could answer "what did this class cost, and what did it earn?" without a manual join.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Nine custom objects: Class Registration, Free Class Configuration, Stripe Payment and Subscription mirrors, Ad Spend Daily, Ticket and Prep Kit purchases, In-Person Event Registration and Shopify Customers, backed by 230+ custom properties.</li>
+            <li>A single join key, <span class="mono">class_session</span> (date plus topic, for example <span class="mono">2026-08-19 - Stocks &amp; ETFs</span>), is written by workflow onto registrations, payments and daily ad spend. Cost per lead and revenue per class roll up without a spreadsheet.</li>
+            <li>Registration schema rebuilt off inherited GoHighLevel naming (19 legacy numbered fields archived) onto clean fields with first-touch and last-touch UTM pairs.</li>
+            <li>Cross-platform IDs on the contact (GoHighLevel, SlickText, Mighty Networks) so every system can find the same person.</li>
+            <li>Holds 700K+ contacts and 330K+ class registrations.</li>
+          </ul>
+          <div class="chips"><span class="chip">Custom objects</span><span class="chip">Join-key design</span><span class="chip">Schema migration</span><span class="chip">First / last touch attribution</span></div>
+          <p class="talk">"I picked one key every system could compute, class date plus topic, and made a workflow stamp it everywhere. That one field turned three disconnected datasets into a cost-per-class report."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+erDiagram
+  CONTACT ||--o{ CLASS_REGISTRATION : registers
+  CONTACT ||--o{ PAYMENT_MIRROR : pays
+  CONTACT ||--o{ SUBSCRIPTION_MIRROR : subscribes
+  FREE_CLASS_CONFIG ||--o{ CLASS_REGISTRATION : "drives"
+  CLASS_REGISTRATION }o--|| CLASS_SESSION : "class_session"
+  PAYMENT_MIRROR }o--|| CLASS_SESSION : "class_session"
+  AD_SPEND_DAILY }o--|| CLASS_SESSION : "class_session"
+  CLASS_SESSION {
+    string key "date + topic"
+  }
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="stripe-mirror">
+      <div class="sys-head">
+        <h3>Stripe Revenue Mirror &amp; Payment Routing</h3>
+        <p class="sub">Every Stripe event, including the ones HubSpot's native sync never sees, lands in HubSpot as a payment record with a product name, then gets routed to the right fulfillment path.</p>
+        <div class="src"><span>Source: build-out report · 4 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>HubSpot's Stripe sync copies live PaymentIntents only. Test payments, $0 comp tickets and checkout sessions never arrived, payment records carried no product field, and nothing could be routed or reported by product.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Stripe webhooks post straight into HubSpot workflow triggers with no middleware. Payloads are trimmed to fit HubSpot's 50-property event limit, whose error message points at the wrong cause.</li>
+            <li>Three data-model generations in two days. A charge-based object was dropped within a minute for payment intents; generation two was replaced the next day by mirrors with invoice and product fields, and the old objects and 17,911 records were torn down.</li>
+            <li>The 80-property payment mirror adds what Stripe lacks: <span class="mono">revenue_type</span>, <span class="mono">product_category</span>, <span class="mono">class_session</span>, seven UTM fields and a CAPI-sent timestamp.</li>
+            <li>A custom code action reads each Checkout Session's line items and writes product names onto the payment. A master router fans buyers out to ticket, accelerator, coaching, membership and upsell workflows.</li>
+            <li>Test-mode payments mirror into the same object, flagged <span class="mono">Record Environment = Test</span> and keyed on a unique test key so retried events update instead of duplicating. Payment workflows can be tested without real charges.</li>
+            <li>$0 checkouts (comp tickets, 100%-off codes) create no PaymentIntent, so a dedicated branch fetches them from Stripe, writes them to the orders object, and a backfill script loads the history.</li>
+            <li>Holds 80K+ payment records and 4K+ subscriptions with live status.</li>
+          </ul>
+          <div class="chips"><span class="chip">Webhooks without middleware</span><span class="chip">Data mirroring</span><span class="chip">Router / fan-out</span><span class="chip">Idempotency keys</span><span class="chip">Test vs prod isolation</span><span class="chip">Backfill</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/stripe-webhooks-to-hubspot-custom-events" target="_blank" rel="noopener">stripe-webhooks-to-hubspot-custom-events</a>
+            <a href="https://github.com/carljibrilsulaimanii/hubspot-stripe-payment-product-names-and-routing" target="_blank" rel="noopener">hubspot-stripe-payment-product-names-and-routing</a>
+            <a href="https://github.com/carljibrilsulaimanii/stripe-test-mode-to-hubspot-payment-mirror" target="_blank" rel="noopener">stripe-test-mode-to-hubspot-payment-mirror</a>
+            <a href="https://github.com/carljibrilsulaimanii/hubspot-stripe-zero-dollar-checkout-sync" target="_blank" rel="noopener">hubspot-stripe-zero-dollar-checkout-sync</a>
+          </div>
+          <p class="talk">"I threw away two versions on purpose. Modeling on charges was wrong for subscriptions, and finding that out in one day was cheaper than reporting on the wrong grain for a year."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  ST[Stripe events<br/>live · test · $0 checkout] -- webhook --> HS[HubSpot workflow trigger]
+  HS --> PM[(Payment mirror<br/>80 properties)]
+  HS -- test mode --> TM[Same object<br/>env = Test · unique key]
+  HS -- $0 session --> OR[(Orders object)]
+  PM --> EN[Custom code: product names<br/>from checkout line items]
+  EN --> R{Master payment router}
+  R --> T1[Tickets]
+  R --> T2[Accelerator]
+  R --> T3[Coaching]
+  R --> T4[Membership]
+  R --> T5[Kits &amp; upsells]
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="attribution">
+      <div class="sys-head">
+        <h3>Conversion Attribution Pipeline</h3>
+        <p class="sub">Campaign source carried from the first ad click through a HubSpot order form and a Stripe Payment Link onto the payment record, then sent server-side to Meta and Google once per real sale or lead.</p>
+        <div class="src"><span>Source: weekly reports · 4 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>30 to 50% of purchase revenue had no source. HubSpot form redirects dropped UTMs, Stripe silently drops UTM values it dislikes, and HubSpot's native conversion events could not send one deduplicated purchase per real payment. Ad platforms were optimizing on wrong signals.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>A site header script stores UTMs and click IDs in a first-party cookie on landing, so they survive form redirects.</li>
+            <li>A two-step HubSpot order form makes every buyer a contact first, then hands them to a Stripe Payment Link with email prefilled and the campaign attached.</li>
+            <li>Payment Links redirect after payment, so Stripe copies UTMs onto the success URL. A workflow reads them back from the Checkout Session and writes them onto the payment record.</li>
+            <li>Four custom code actions send Purchase and Lead to the Meta Conversions API and Google Ads: one event per settled payment at the amount actually charged, one per lead even on duplicate submits, with correct hashing. HubSpot's native integration was diagnosed against each failure and confirmed unsuitable by HubSpot support.</li>
+            <li>Upstream fixes: ad-ID hidden fields, landing-URL capture persisted across multi-step funnels, pixel and CAPI audits that found duplicate events and a token with the wrong scope.</li>
+            <li>Direct Graph API access gives Claude read access to ad accounts the Meta Ads MCP connector won't serve, without business-admin rights.</li>
+          </ul>
+          <div class="chips"><span class="chip">Server-side conversions</span><span class="chip">Deduplication</span><span class="chip">First-party cookies</span><span class="chip">Meta CAPI</span><span class="chip">Google Ads API</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/hubspot-order-form-stripe-checkout-link-integration" target="_blank" rel="noopener">hubspot-order-form-stripe-checkout-link-integration</a>
+            <a href="https://github.com/carljibrilsulaimanii/hubspot-stripe-utm-attribution" target="_blank" rel="noopener">hubspot-stripe-utm-attribution</a>
+            <a href="https://github.com/carljibrilsulaimanii/hubspot-capi-server-side-lead-and-purchase-conversions-meta-google" target="_blank" rel="noopener">hubspot-capi-server-side-lead-and-purchase-conversions-meta-google</a>
+            <a href="https://github.com/carljibrilsulaimanii/claude-meta-ads-api-access-without-mcp" target="_blank" rel="noopener">claude-meta-ads-api-access-without-mcp</a>
+          </div>
+          <p class="talk">"Every failure in attribution is silent. A double count or a lost sale doesn't error; it just teaches the campaign the wrong thing. So every step in this pipeline ends in a check."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  AD[Ad click<br/>UTMs + click IDs] --> CK[First-party cookie]
+  CK --> F1[Order form step 1<br/>contact created]
+  F1 --> PL[Stripe Payment Link<br/>email + campaign attached]
+  PL --> SU[Success URL<br/>carries UTMs]
+  SU --> WF[Workflow reads Checkout Session]
+  WF --> PM[(Payment record<br/>amount + source)]
+  PM --> M[Meta CAPI Purchase]
+  PM --> G[Google Ads conversion]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain 2 · Funnel engine &amp; member lifecycle</span>
+
+    <article class="sys" id="free-class">
+      <div class="sys-head">
+        <h3>Free Class Engine</h3>
+        <p class="sub">One configuration record drives a whole class launch, first in GoHighLevel custom values and then rebuilt as a HubSpot custom object: pages, calendar links, SMS schedules, redirects and tags across five subdomains and 100+ landing pages.</p>
+        <div class="src"><span>Source: weekly reports, build-out report · 3 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Every weekly class was launched by hand: titles, dates, YouTube links, SMS lists and tags set one by one across dozens of pages. Mistakes reached the public, and two classes could not run in the same week.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>In GoHighLevel, every class detail lives in custom values; dual-class infrastructure gives each topic its own value and tag set so two classes can run at once.</li>
+            <li>HubSpot has no account-wide custom values, so I built the equivalent: a configuration object with one record per class, read by seven custom page modules (date, countdown, replay window, video, calendar button) and by workflows through an "Active &lt;Topic&gt; Config" data source.</li>
+            <li>A self-hosted Add to Calendar bridge replaced a paid service: one page reads the event from custom values, converts Eastern time to UTC, and returns a Google link or an .ics file. Fixed daylight-saving, HTML-in-values and merge-tag crashes across five versions.</li>
+            <li>An SMS scheduler turns one class date into nine SlickText campaigns, converting each Eastern send time to UTC correctly across daylight saving. A list-sync step finds or creates each registrant in SlickText first.</li>
+            <li>A numbered lifecycle: registration record, attribution events, nurture, attended (from the watch-now page) or watched replay, each with its own nurture, then the offer.</li>
+            <li>Permanent restream redirects update when the class flips, so nobody rushes a new YouTube link at the end of a live class.</li>
+          </ul>
+          <div class="chips"><span class="chip">Configuration-driven design</span><span class="chip">Lifecycle state machine</span><span class="chip">Time-zone correctness</span><span class="chip">Platform parity</span><span class="chip">Vendor replacement</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/ghl-custom-values-in-hubspot-for-dynamically-updating-funnels" target="_blank" rel="noopener">ghl-custom-values-in-hubspot-for-dynamically-updating-funnels</a>
+            <a href="https://github.com/carljibrilsulaimanii/custom-add-to-calendar-bridge" target="_blank" rel="noopener">custom-add-to-calendar-bridge</a>
+            <a href="https://github.com/carljibrilsulaimanii/gohighlevel-slicktext-sms-sync-and-campaign-scheduler" target="_blank" rel="noopener">gohighlevel-slicktext-sms-sync-and-campaign-scheduler</a>
+          </div>
+          <p class="talk">"I moved the launch from a checklist to a record. Change one configuration object and every page, calendar link, SMS campaign and tag for that class follows."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  CFG[(Class configuration<br/>GHL custom values → HubSpot object)] --> PG[Pages · countdown · replay]
+  CFG --> CAL[Add to Calendar bridge]
+  CFG --> SMS[9 SlickText campaigns<br/>ET → UTC]
+  CFG --> RD[Redirects + restream link]
+  PG --> R1[Registration record]
+  R1 --> A{Attended?}
+  A -- Watch now --> R4[Attended nurture]
+  A -- Replay --> R5[Replay nurture]
+  R4 --> OF[Offer]
+  R5 --> OF
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="member-lifecycle">
+      <div class="sys-head">
+        <h3>Member Lifecycle &amp; Retention</h3>
+        <p class="sub">Membership events from Mighty Networks and Stripe drive onboarding, engagement scoring, cancellation saves and failed-payment recovery, all from one router.</p>
+        <div class="src"><span>Source: weekly reports · 5 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Members bought in Mighty Networks and paid in Stripe, but the CRM did not know who joined, who stalled, who cancelled or whose card failed. Churn was invisible until it happened.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>A webhook router receives every Mighty Networks event at one URL and routes on <span class="mono">event_type</span>: purchases (skip $0, tag annual or monthly, start onboarding, tag renewal month), cancellations, joins, purchase requests and course progress.</li>
+            <li>Cancellation save: the webhook fires on the cancel click, not when access ends, so the router holds the contact until 7 days before access ends, then sends a downsell sequence.</li>
+            <li>Failed-payment recovery replaced a paid dunning tool: <span class="mono">charge.failed</span> records the decline reason, <span class="mono">invoice.payment_failed</span> sends a sequence chosen by that reason with the member's own invoice link. Initial emails reached about 50% opens.</li>
+            <li>Engagement: a daily Apps Script copies each member's last-visited date (Host-token Headless API only) and pushes only changed dates. It feeds a hot / warm / cold / dormant / frozen score. A bulk-paste bug was fixed with an hourly diff-hashed sync.</li>
+            <li>Course progress: one custom-object record per member per course, created once then updated, after mapping the request shape GoHighLevel's API accepts instead of a bare 422.</li>
+            <li>Onboarding activation: an SMS check-in asks which of five milestones a member finished, tags progress 0 to 100%, sends one next step, and nudges through a Conversation AI bot. Built and tested; not yet launched to live members.</li>
+          </ul>
+          <div class="chips"><span class="chip">Event router</span><span class="chip">Churn prevention</span><span class="chip">Dunning</span><span class="chip">Diff-based sync</span><span class="chip">Engagement scoring</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/mighty-networks-webhook-router-gohighlevel" target="_blank" rel="noopener">mighty-networks-webhook-router-gohighlevel</a>
+            <a href="https://github.com/carljibrilsulaimanii/stripe-gohighlevel-failed-payment-recovery" target="_blank" rel="noopener">stripe-gohighlevel-failed-payment-recovery</a>
+            <a href="https://github.com/carljibrilsulaimanii/mighty-networks-hubspot-last-visited-sync" target="_blank" rel="noopener">mighty-networks-hubspot-last-visited-sync</a>
+            <a href="https://github.com/carljibrilsulaimanii/mighty-networks-course-progress-to-gohighlevel-custom-objects" target="_blank" rel="noopener">mighty-networks-course-progress-to-gohighlevel-custom-objects</a>
+            <a href="https://github.com/carljibrilsulaimanii/gohighlevel-conversation-ai-onboarding-activation-bot" target="_blank" rel="noopener">gohighlevel-conversation-ai-onboarding-activation-bot</a>
+          </div>
+          <p class="talk">"The cancel webhook fires the moment someone clicks cancel, weeks before they lose access. Holding them until a week before the end date turned a lost member into a save window."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  MN[Mighty Networks webhook] --> R{Router on event_type}
+  R -- purchased --> P[Tag plan · start onboarding]
+  R -- canceled --> C[Hold until 7 days<br/>before access ends] --> DS[Downsell sequence]
+  R -- course progress --> CO[(Progress record<br/>per member per course)]
+  R -- joined --> J[Create contact]
+  ST[Stripe] -- charge.failed --> FR[Record decline reason]
+  ST -- invoice.payment_failed --> FS[Sequence by reason<br/>+ invoice link]
+  LV[Daily last-visited sync] --> SC[Hot · warm · cold · dormant · frozen]
+  P --> OB[Activation check-in bot]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain 3 · Conversations, sales routing &amp; AI agents</span>
+
+    <article class="sys" id="sales-routing">
+      <div class="sys-head">
+        <h3>Sales Routing &amp; Conversations</h3>
+        <p class="sub">Calls, texts, community DMs and bookings routed to the right rep and logged on the contact, including an AI voice and SMS agent that books straight into HubSpot.</p>
+        <div class="src"><span>Source: weekly reports · 3 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Inbound calls went unhandled, every marketing blast flooded reps' inboxes with STOP and thumbs-up replies, members' Mighty Networks DMs lived outside the CRM, and high-ticket enrollment calls had no-shows.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Aloware AI agent booking: the agent books by SMS or voice onto a rep's real calendar through HubSpot's round-robin meeting link. No scheduler, no middleware. Every setup step ends in a check because the failure mode is HTTP 200 with nothing booked.</li>
+            <li>Filtered inboxes (designed, not yet built): an AI agent sorts replies to marketing texts and moves only buyers to a toll-free sales line and their owner with one automatic text, because Aloware cannot move a conversation between lines.</li>
+            <li>Two-way Mighty Networks DM sync in Apps Script: member DMs become notes on the HubSpot contact every 15 minutes; a rep's reply typed in HubSpot goes out as a DM every 5. It refuses to write until an ID check and inbox baseline pass.</li>
+            <li>GoHighLevel phone tree (enrollment, members, support), role-scoped inboxes (each rep sees only their contacts; collections sees only failed payments), auto-assigned conversations and a round-robin calendar.</li>
+            <li>Enrollment call protection: after booking, leads are classified engaged, silent or at-risk, message cadence adjusts, and at-risk appointments go to a review queue.</li>
+          </ul>
+          <div class="chips"><span class="chip">AI agent tooling</span><span class="chip">Two-way sync</span><span class="chip">Round robin</span><span class="chip">Role-based access</span><span class="chip">Aloware · HubSpot · GHL</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/aloware-ai-hubspot-scheduling" target="_blank" rel="noopener">aloware-ai-hubspot-scheduling</a>
+            <a href="https://github.com/carljibrilsulaimanii/mighty-networks-hubspot-dm-integration" target="_blank" rel="noopener">mighty-networks-hubspot-dm-integration</a>
+            <a href="https://github.com/carljibrilsulaimanii/filtered-sms-inboxes-auto-update-outbound-channel" target="_blank" rel="noopener">filtered-sms-inboxes-auto-update-outbound-channel</a>
+          </div>
+          <p class="talk">"Most failures in this stack are silent: a 200 response with nothing booked. I design every integration so the last step is a check a non-engineer can run."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  C[Contact SMS or call] --> AI[Aloware AI agent]
+  AI -- book --> RR[HubSpot round-robin<br/>meeting link]
+  RR --> REP[Rep calendar + meeting on contact]
+  MB[Marketing text reply] --> SORT{AI sorts reply}
+  SORT -- buyer --> SL[Toll-free sales line<br/>+ owner]
+  SORT -- noise --> X[Stays in marketing]
+  MDM[Mighty Networks DM] <-- 15 / 5 min --> HN[HubSpot contact notes<br/>+ reply property]
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="ai-knowledge">
+      <div class="sys-head">
+        <h3>Conversational AI &amp; Knowledge Pipeline</h3>
+        <p class="sub">A customer-facing AI agent on SMS, social and the member community, fed by a transcription pipeline that turns calls, live classes and meetings into its knowledge base, plus Claude connected to the CRM and ad accounts for operations.</p>
+        <div class="src"><span>Source: weekly reports · 4 public repos</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Support, sales and member questions arrived around the clock across SMS, Facebook, Instagram and the community. The answers already existed, but only inside thousands of call recordings, class videos and podcast episodes.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>A GoHighLevel Conversation AI agent replaced ManyChat on social, runs as a help-desk bot embedded in Mighty Networks, and answers on the replay page.</li>
+            <li>Human-in-the-loop controls: a thumbs-down training loop run by support, a stop-bot tag, 10 minutes of silence after a rep sends a manual message, and no call booking offered to non-customers.</li>
+            <li>Knowledge pipeline: thousands of call recordings bulk-transcribed through a declare, upload, poll, download API pattern, cleaned into readable transcripts, and packed into CSVs under the knowledge base's 50 MB limit.</li>
+            <li>Long recordings: a Gemini pipeline splits 7+ hour meetings into 45-minute chunks, uses a voice sample per speaker for labels, shifts timestamps back to the meeting clock, and resumes across free-tier quota days.</li>
+            <li>Live class questions: the YouTube chat replay is exported and filtered to audience questions for FAQs and follow-up.</li>
+            <li>Operations: Claude connected to GoHighLevel and HubSpot through MCP with read-only scopes, and to Meta ad accounts through the Graph API. Weekly reporting is assembled by Claude from seven sources (Slack, calendar, email, Asana, CRM audit logs and AI chat exports).</li>
+          </ul>
+          <div class="chips"><span class="chip">LLM agents</span><span class="chip">Human in the loop</span><span class="chip">Transcription pipelines</span><span class="chip">MCP</span><span class="chip">Python</span><span class="chip">Gemini · Claude</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/twilio-call-recordings-bulk-transcription-elevateai" target="_blank" rel="noopener">twilio-call-recordings-bulk-transcription-elevateai</a>
+            <a href="https://github.com/carljibrilsulaimanii/gemini-long-meeting-transcription-with-speaker-labels" target="_blank" rel="noopener">gemini-long-meeting-transcription-with-speaker-labels</a>
+            <a href="https://github.com/carljibrilsulaimanii/youtube-live-chat-questions-export" target="_blank" rel="noopener">youtube-live-chat-questions-export</a>
+            <a href="https://github.com/carljibrilsulaimanii/python-utility-scripts" target="_blank" rel="noopener">python-utility-scripts</a>
+          </div>
+          <p class="talk">"The bot is only as good as what it has read. Most of the work was the pipeline that turned years of calls and classes into something it could read."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  REC[Call recordings] --> TR[Bulk transcription]
+  MTG[7+ hr meetings] --> GM[Gemini chunks<br/>+ speaker labels]
+  YT[YouTube Live chat] --> Q[Question export]
+  TR --> KB[(Knowledge base<br/>CSV under 50 MB)]
+  GM --> KB
+  Q --> KB
+  KB --> BOT[Conversation AI agent<br/>SMS · social · community]
+  BOT -- thumbs down --> TRN[Support retrains]
+  REP[Rep sends message] -. pause bot .-> BOT
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain 4 · Platform operations &amp; migration</span>
+
+    <article class="sys" id="email-infra">
+      <div class="sys-head">
+        <h3>Email Infrastructure Re-architecture</h3>
+        <p class="sub">Bulk sending to a half-million-contact list moved onto a dedicated provider and rebuilt on correct DNS, authentication and suppression, after four platform blocks in six weeks.</p>
+        <div class="src"><span>Source: weekly reports, May to July 2026</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>The CRM's built-in sender kept pausing at volume, was the largest line on the CRM bill, and the vendor's support said DNS was clean when it wasn't.</p>
+          <h4>Design &amp; incident response</h4>
+          <ul>
+            <li>Moved sending onto Mailgun (about 95% lower sending cost) with a new warmed sending subdomain, and rebuilt the delivery-tracking webhooks into the CRM.</li>
+            <li>An independent DNS audit found the dedicated IP's reverse DNS had pointed to an unrelated domain for about five months. Fixed SPF, A and PTR records and filed the dispute in writing.</li>
+            <li>A second, separate fault: the delivery webhook was broken, so 56,898 delivered emails showed as about 46 in the CRM. Delivery logs showed 97 to 99% actual delivery.</li>
+            <li>Remediation on the next suspension: 2048-bit DKIM, a DMARC path from none to quarantine, suppression of hard bounces and 90-day non-openers, restart on engaged segments, and Mailgun kept as failover.</li>
+            <li>Standing rules: test with mail-tester before any blast over 1,000 contacts, subscription categories so opt-outs still receive transactional mail, sends scheduled hours early to fit throughput limits, and marketing on its own subdomain to protect corporate reputation.</li>
+          </ul>
+          <div class="chips"><span class="chip">Deliverability</span><span class="chip">SPF · DKIM · DMARC · PTR</span><span class="chip">Failover</span><span class="chip">Root-cause analysis</span><span class="chip">Mailgun</span></div>
+          <p class="talk">"There were two unrelated faults at once: a bad PTR record and a broken tracking webhook. The second made the first look much worse than it was. I trust delivery logs over dashboards."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  CRM[CRM campaigns] --> MG[Mailgun<br/>dedicated subdomain]
+  MG --> DNS{DNS + auth<br/>SPF · DKIM 2048 · DMARC · PTR}
+  DNS --> INBOX[Inbox providers]
+  MG -- delivery webhooks --> CRM
+  SUP[Suppression<br/>hard bounces · 90-day non-openers] --> CRM
+  MT[mail-tester gate<br/>before 1,000+ sends] --> CRM
+  MG -. failover .- ALT[Backup sender]
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="crm-consolidation">
+      <div class="sys-head">
+        <h3>CRM Consolidation &amp; Platform Migration</h3>
+        <p class="sub">Three contact databases merged into one GoHighLevel account, legacy tools retired, then a hybrid move to HubSpot as the revenue system of record.</p>
+        <div class="src"><span>Source: weekly reports, Jan to July 2026 · 1 public repo</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Contacts were split across ActiveCampaign and two GoHighLevel accounts with heavy overlap. The legacy email platform alone cost many times more than the CRM, and no tool gave a full view of a customer.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Deduplicated three lists to 520K+ unique contacts and migrated them into one GoHighLevel account, mapping tags case by case.</li>
+            <li>Retired ActiveCampaign. Its API has no bulk delete and the rate limit made a 600K-contact wipe a 200-hour job, so I wrote a resumable script and finished with a server-side wipe through support.</li>
+            <li>Moved the funnel and website off ClickFunnels, WordPress hosting and a paid page host onto the CRM, and moved the site to path-based URLs instead of new subdomains.</li>
+            <li>Evaluated a BigQuery and Looker warehouse. The connector timed out on 530K contacts with no incremental loading, so I wrote a post-mortem and moved reporting to CRM dashboards and AI-assisted reports.</li>
+            <li>Ran a GoHighLevel vs HubSpot gap analysis and chose a hybrid: HubSpot as the revenue system of record, SlickText kept for SMS, Aloware for telephony. The migration plan grew to a 76-page build document.</li>
+            <li>Tech-stack and vendor-fee audits found an automation plan on the wrong tier, payment-processing fees to renegotiate and community-platform overages.</li>
+          </ul>
+          <div class="chips"><span class="chip">Data migration</span><span class="chip">Deduplication</span><span class="chip">Build vs buy</span><span class="chip">Cost optimization</span><span class="chip">Post-mortems</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/activecampaign-bulk-contact-delete" target="_blank" rel="noopener">activecampaign-bulk-contact-delete</a>
+          </div>
+          <p class="talk">"Knowing when to stop scripting is part of the job. The delete script worked, but at one call per second a support ticket was the faster architecture."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  AC[(ActiveCampaign)] --> DD{Dedupe<br/>520K+ unique}
+  G1[(GHL account A)] --> DD
+  G2[(GHL account B)] --> DD
+  DD --> GHL[(One GHL account)]
+  GHL -- contact sync webhook --> HS[(HubSpot<br/>revenue system of record)]
+  AC -. retired .-> X[Wiped]
+  CF[ClickFunnels · WordPress] -. moved .-> GHL
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Independent build · Sept 2026</span>
+
+    <article class="sys" id="salesforce">
+      <div class="sys-head">
+        <h3>Salesforce Referral-to-Delivery</h3>
+        <p class="sub">A Salesforce Developer Org build for a consulting firm: partner referral intake through qualified lead, conversion, a guided sales Path, and an automatic project on Closed Won.</p>
+        <div class="src"><span>Source: solutions architect assignment, video walkthrough · 1 public repo</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Design</h4>
+          <ul>
+            <li>Branded Web-to-Lead referral form that captures the referred business and the referring partner and tags the lead as a referral.</li>
+            <li>Lead converts to Account, Contact and Opportunity; prospects, clients, referral partners and competitors are Account record types.</li>
+            <li>Custom sales process with a guided Path. A record-triggered Flow creates a Project when a deal closes and promotes the account from Prospect to Client.</li>
+            <li>Kept deliberately simple: standard objects first, one custom object, one automation. Delivered with a click-by-click build plan, QA and verification doc, and a timed training script.</li>
+          </ul>
+          <div class="chips"><span class="chip">Salesforce</span><span class="chip">Web-to-Lead</span><span class="chip">Record types</span><span class="chip">Flow</span><span class="chip">Path</span></div>
+          <div class="repos"><span class="label">Code</span>
+            <a href="https://github.com/carljibrilsulaimanii/salesforce-referral-to-delivered-project" target="_blank" rel="noopener">salesforce-referral-to-delivered-project</a>
+            <a href="https://youtu.be/ps1hYrhsKBM" target="_blank" rel="noopener">video walkthrough</a>
+          </div>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  F[Partner referral form] --> L[Lead · referral]
+  L --> Q{Qualified?}
+  Q -- convert --> A[Account · Contact · Opportunity]
+  A --> P[Guided sales Path]
+  P -- Closed Won --> FL[Flow]
+  FL --> PR[Project created]
+  FL --> CL[Account → Client]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="systems">
+  <div class="era-head">
+    <span class="label">2019 to 2021 · CEO / Founder, then CTO</span>
+    <h2>Incluzion (Spendwith Corp) and client systems</h2>
+    <p>A remote-work platform for Black and Latinx professionals with four products on one community: a remote jobs board, a services marketplace, a learning platform and the community itself. By March 2021 it had 3,000+ professionals, 300+ remote jobs posted and $63K in 2020 revenue, sold as job posts ($199+), job wrapping and hosted job sites ($100+/mo) and retained search (20%). Diagrams below are clean redraws of the original Lucid files; originals are linked on each record.</p>
+  </div>
+
+  <!-- DOMAIN 1 -->
+  <div class="domain">
+    <span class="label">Domain 1 · Data integration</span>
+
+    <article class="sys" id="translator">
+      <div class="sys-head">
+        <h3>ATS Translator API</h3>
+        <p class="sub">A normalization layer that takes job data from seven applicant tracking systems and maps it into one canonical job-form schema.</p>
+        <div class="src"><span>Source: Lucid · "Incluzion Translator API"</span><a href="https://lucid.app/lucidchart/ee267e83-670a-4334-b847-21bc3ce6dc42/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Every ATS exposes jobs in a different shape. Greenhouse nests location under <span class="mono">offices[].name</span> and <span class="mono">location.name</span>; Lever uses <span class="mono">text</span>, <span class="mono">description</span> and <span class="mono">lists</span>. A job board that accepts all of them cannot hard-code each one into the posting form.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>One adapter per source (Greenhouse, Lever, Workable, Recruitee, RecruiterBox, SmartRecruiters, JazzHR / Applytojob).</li>
+            <li>A single translator maps source fields to a canonical model: <span class="mono">location → title → content → companyname</span>.</li>
+            <li>The job form consumes only the canonical model, so adding an eighth ATS touches one adapter and nothing downstream.</li>
+          </ul>
+          <div class="chips"><span class="chip">Adapter pattern</span><span class="chip">Canonical data model</span><span class="chip">REST</span><span class="chip">JSON mapping</span></div>
+          <p class="talk">"I decoupled sources from the consumer with a canonical schema, which is the same move you make in an iPaaS or a CDP when you onboard a new connector."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  GH[Greenhouse] --> T
+  LV[Lever] --> T
+  WK[Workable] --> T
+  RC[Recruitee] --> T
+  RB[RecruiterBox] --> T
+  SR[SmartRecruiters] --> T
+  JZ[JazzHR / Applytojob] --> T
+  T{{Translator<br/>field mapping}} --> C[(Canonical job<br/>location · title<br/>content · company)]
+  C --> F[Job posting form]
+</pre>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="import">
+      <div class="sys-head">
+        <h3>Job Import Pipeline</h3>
+        <p class="sub">Ingestion design for pulling portfolio-company jobs from VC firms into a WordPress job board, with dedupe rules, source tagging and white-label output.</p>
+        <div class="src"><span>Source: Lucid · "WP Jobs Manager Flow" (4 regions, includes ERD entities)</span><a href="https://lucid.app/lucidchart/7492a216-52f3-471e-9d0f-52714abd4c88/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>VC funds publish portfolio jobs two ways: through Getro-hosted boards (Backstage Capital) or their own sites (Magma Partners). Jobs must attach to the right company profile, never duplicate on re-import, and stay filterable by origin.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Two ingestion paths: a Getro integration for hosted boards, a JobSpikr scraper integration for everything else.</li>
+            <li>Match key is company name plus Getro company ID. If the company exists, jobs attach to it; if not, the pipeline creates the profile first, then imports.</li>
+            <li>Each job carries a relational record: owning user (the fund), company profile, and an <span class="mono">imported</span> flag (<span class="mono">y</span> or <span class="mono">y-getro</span>).</li>
+            <li>A filter entity separates <span class="mono">Imported</span>, <span class="mono">Getro</span> and <span class="mono">User Submitted</span> jobs on the board.</li>
+            <li>The same data feeds a white-label board per customer at <span class="mono">company.incluzion.co</span>.</li>
+          </ul>
+          <div class="chips"><span class="chip">ETL</span><span class="chip">Idempotent upsert</span><span class="chip">Entity resolution</span><span class="chip">Data lineage tags</span><span class="chip">Multi-tenant</span></div>
+          <p class="talk">"The parent record has to exist before the child imports, and the match key prevents duplicates on every re-run. That is the same ordering problem as loading Accounts before Contacts and Opportunities in a CRM migration."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  A[VC portfolio jobs] --> B{Hosted by Getro?}
+  B -- Yes --> G[Getro integration]
+  B -- No --> J[JobSpikr integration]
+  G --> M{Company exists?<br/>name + Getro ID}
+  J --> M
+  M -- Yes --> X[Attach jobs to<br/>existing profile]
+  M -- No --> N[Create company profile<br/>assign to fund user] --> X
+  X --> D[(Job record<br/>user · company · imported flag)]
+  D --> B1[Incluzion job board<br/>filters: Imported · Getro · User]
+  D --> B2[White-label board<br/>company.incluzion.co]
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Shipped: from the 2021 sales deck</h4>
+          <div class="thumbs">
+            <a href="pc/incluzion-amplification.jpg" target="_blank" rel="noopener"><img src="pc/incluzion-amplification.jpg" alt="Aggregation and amplification slide: portfolio companies flow into Incluzion and out to DEI channels" loading="lazy" style="aspect-ratio:16/9">Aggregation &amp; amplification</a>
+            <a href="pc/incluzion-three-steps.jpg" target="_blank" rel="noopener"><img src="pc/incluzion-three-steps.jpg" alt="Three-step slide: define network, auto-sync daily, amplify" loading="lazy" style="aspect-ratio:16/9">Define, sync daily, amplify</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DOMAIN 2 -->
+  <div class="domain">
+    <span class="label">Domain 2 · Platform architecture</span>
+
+    <article class="sys" id="platform">
+      <div class="sys-head">
+        <h3>Incluzion Platform Map</h3>
+        <p class="sub">End-to-end system map for Spendwith Corp (dba Incluzion): sourcing, CRM, job board, community, learning platform, support and growth tooling, with the people who operate each part.</p>
+        <div class="src"><span>Source: Lucid · "Incluzion flow" (80+ nodes, sequenced API calls)</span><a href="https://lucid.app/lucidchart/74613a5b-d6c3-4093-ad98-e0638f582c69/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Hiring managers post openings on LinkedIn and Twitter, not on job boards. The platform needed to capture those posts, turn them into free job listings automatically, and use that as the first touch in a sales motion.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>A Chrome extension scrapes the post (name, handle, post URL, job link) and POSTs it to Nimble CRM.</li>
+            <li>The extension reads back the contact ID, then calls the Incluzion Job Post API with <span class="mono">contactID</span> and <span class="mono">job_url</span>.</li>
+            <li>The importer plugin creates a complimentary listing, then writes the public job URL back to the Nimble contact.</li>
+            <li>LinkedIn and Twitter posting bots pull the URL from Nimble and reply to the original post with a call to action.</li>
+            <li>A tracking dashboard logs contact ID, job URL, preview URL or error code, and update status for every import.</li>
+            <li>Around the core: paid and nonprofit job posts with coupon codes, freelance RFPs with hours tracking (Tmetric), affiliate tracking (FirstPromoter), Mailchimp newsletter, Tawk.to support, Slack/BuddyBoss community, and a course platform.</li>
+          </ul>
+          <div class="chips"><span class="chip">Closed-loop CRM write-back</span><span class="chip">Browser extension</span><span class="chip">REST</span><span class="chip">Observability log</span><span class="chip">Product-led growth</span></div>
+          <p class="talk">"I designed the record to round-trip: the CRM contact gets the job URL back, so outreach and attribution run off one ID. I was CTO on this one."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+sequenceDiagram
+  participant S as Social post
+  participant X as Chrome extension
+  participant N as Nimble CRM
+  participant API as Job Post API
+  participant P as Importer plugin
+  participant B as Posting bot
+  S->>X: Hiring post identified
+  X->>N: POST name, handle, post URL, job link
+  N-->>X: contactID
+  X->>API: POST contactID + job_url
+  API->>P: Create complimentary listing
+  P->>N: Write public job URL to contact
+  B->>N: GET job URL
+  B->>S: Reply with CTA + listing link
+  P-->>P: Log status to tracking dashboard
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DOMAIN 3 -->
+  <div class="domain">
+    <span class="label">Domain 3 · Product specification</span>
+
+    <article class="sys" id="split">
+      <div class="sys-head">
+        <h3>Split Placement Network</h3>
+        <p class="sub">Feature specification for a two-sided recruiter marketplace inside the job board, where one recruiter owns the job and another supplies the candidate and they split the fee.</p>
+        <div class="src"><span>Source: Lucid · "Split Placement Network" (screens annotated with field specs)</span><a href="https://lucid.app/lucidchart/747d37fe-885c-4de7-83c1-04ccff6cdd51/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Extend an existing job board into a marketplace without forking it. Two personas, the job recruiter and the candidate recruiter, need different views of the same job record.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>A single checkbox field (<span class="mono">Split Placement</span>, Yes/No) on the new-job form routes the job. Yes skips payment and publishes to the split board; No follows the normal flow.</li>
+            <li>The split board is a filtered view of the normal board, not a separate system.</li>
+            <li>Candidate recruiters get three tabs: Marketplace, My Saved Jobs, My Candidates. Job detail modals show the description plus a Job Insights tab for owner announcements and Q&amp;A.</li>
+            <li>Job owners get a dashboard with applications per job, a public notes field, and counts for submitted, interviewed and rejected candidates.</li>
+            <li>Social proof on each job: how many recruiters are working it, and how many from your firm.</li>
+          </ul>
+          <div class="chips"><span class="chip">Role-based views</span><span class="chip">Feature flag on record</span><span class="chip">Marketplace design</span><span class="chip">Requirements spec</span></div>
+          <p class="talk">"I reused the job object and changed behavior with one flag. Less code, one source of truth, and the marketplace inherits every fix to the base board."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  N[New job form] --> F{Split placement?}
+  F -- No --> P[Normal flow<br/>payment, standard board]
+  F -- Yes --> S[Skip payment<br/>confirmation screen]
+  S --> O[(Job order #)]
+  O --> SB[Split placement board<br/>filtered view of main board]
+  SB --> CR[Candidate recruiter<br/>Marketplace · Saved · Candidates]
+  CR --> M[Job modal<br/>Description · Insights Q&A]
+  M --> SUB[Submit candidate]
+  O --> JR[Job owner dashboard<br/>applications · notes · funnel counts]
+  SUB --> JR
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DOMAIN 4 -->
+  <div class="domain">
+    <span class="label">Domain 4 · Revenue architecture</span>
+
+    <article class="sys" id="gtm">
+      <div class="sys-head">
+        <h3>Segmented GTM Funnel</h3>
+        <p class="sub">Go-to-market design that routes each customer segment to the product configuration and pricing tier that fits its existing tooling.</p>
+        <div class="src"><span>Source: Lucid · "Sales Funnel"</span><a href="https://lucid.app/lucidchart/53c02ce6-1d3d-413c-b8e2-ef6fe946968d/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Buyers ranged from a single hiring company to VC funds and chambers of commerce. A fund that already pays for Getro needs a different offer than one that does not.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Five segments, each with its own outreach email: VC fund using Getro, VC fund without Getro, chamber of commerce, trade organization, single company.</li>
+            <li>Getro customers get jobs imported into the Incluzion board only. Everyone else also gets a white-label board for their own members or portfolio.</li>
+            <li>Single companies choose a free post, a paid post ($225 to $275), or a subscription: job wrapping at $100/mo, or multi-post tiers at $150, $290 and $700/mo.</li>
+            <li>Outreach was owned by named reps per segment, so pipeline could be tracked by owner.</li>
+          </ul>
+          <div class="chips"><span class="chip">ICP segmentation</span><span class="chip">Tiered pricing</span><span class="chip">Packaging by integration state</span></div>
+          <p class="talk">"The segmentation key was the prospect's existing stack. Product packaging followed from what they already had integrated."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  O[Segmented outreach] --> V1[VC fund<br/>uses Getro]
+  O --> V2[VC fund<br/>no Getro]
+  O --> C[Chamber of commerce]
+  O --> T[Trade org]
+  O --> S[Single company]
+  V1 --> I1[Import to Incluzion board only]
+  V2 --> I2[Import + white-label board]
+  C --> I2
+  T --> I2
+  S --> P{Plan}
+  P --> P1[Free post]
+  P --> P2[Paid post $225–275]
+  P --> P3[Subscription<br/>$100 · $150 · $290 · $700 /mo]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DOMAIN 5 -->
+  <div class="domain">
+    <span class="label">Domain 5 · Lifecycle automation</span>
+
+    <article class="sys" id="lead">
+      <div class="sys-head">
+        <h3>Speed-to-Lead Automation</h3>
+        <p class="sub">Multi-channel nurture and booking workflow built in GoHighLevel for a client's appointment-based service business, from opt-in to the day of the appointment.</p>
+        <div class="src"><span>Source: Lucid · "Client Lead Flow" (client names removed here)</span><a href="https://lucid.app/lucidchart/2cb266cb-a162-4fe5-a69f-405bd2e893aa/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Leads from paid social went cold within hours. The client needed every lead contacted fast, without texting people at night, and every booking confirmed so no-shows dropped.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Two branches keyed on the event trail: opted in only, or opted in and booked.</li>
+            <li>Opt-in branch: SMS at 10 minutes, email at 5, booking link at 1, then 130 minutes, 24 hours, 2 days, 4 days, 7 days, ending with a waitlist close-out message.</li>
+            <li>Booking-request branch: SMS at 8 minutes, held to 7:30 AM if outside business hours, then 24, 48 and 72 hour follow-ups.</li>
+            <li>Confirmed branch: instant SMS and email, then reminders at 48 hours, 24 hours with a reply-YES confirmation, and 75 minutes with directions.</li>
+            <li>Inbound calls exit the sequence so a lead who already called is not texted.</li>
+          </ul>
+          <div class="chips"><span class="chip">Event-driven workflow</span><span class="chip">Business-hours guard</span><span class="chip">Exit conditions</span><span class="chip">SMS + email orchestration</span><span class="chip">GoHighLevel</span></div>
+          <p class="talk">"Every step has a trigger, a wait, a channel and an exit. The quiet-hours rule and the call-in exit are what keep a sequence like this from feeling automated."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  L[Lead opt-in] --> Q{Booked?}
+  Q -- No --> A1[SMS +10m] --> A2[Email +5m] --> A3[Booking link +1m]
+  A3 --> A4[Nudges: 130m · 24h · 2d · 4d · 7d] --> A5[Waitlist close-out]
+  Q -- Requested --> B1[SMS +8m<br/>or 7:30 AM next day] --> B2[24h · 48h · 72h follow-ups]
+  Q -- Confirmed --> C1[Confirm SMS + email] --> C2[48h reminder] --> C3[24h reply-YES] --> C4[75m directions]
+  L -. inbound call .-> X[Exit sequence]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- DOMAIN 6 -->
+  <div class="domain">
+    <span class="label">Domain 6 · Operating model</span>
+
+    <article class="sys" id="roles">
+      <div class="sys-head">
+        <h3>Incluzion Operating Model</h3>
+        <p class="sub">Function map for the company: which person or contractor owned each product surface, channel and back-office process.</p>
+        <div class="src"><span>Source: Lucid · "INCLUZION ROLES"</span><a href="https://lucid.app/lucidchart/3ce7a358-b36a-4947-81e3-ec5cfadf6425/edit" target="_blank" rel="noopener">Open original</a></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>What it shows</h4>
+          <ul>
+            <li>Product surfaces: remote jobs board, community, learning platform, FlexWorkTV video series, and a Fiverr profile import feeding a profile and post creation API.</li>
+            <li>Growth: lead sourcing, business development, email outreach, influencer marketing, TikTok and Instagram video, Clubhouse rooms.</li>
+            <li>Back office: grants with automated submission, operations, onboarding, HR and hiring.</li>
+            <li>AI development tied directly to the jobs board.</li>
+          </ul>
+          <div class="chips"><span class="chip">RACI-style ownership</span><span class="chip">Org design</span><span class="chip">Contractor model</span></div>
+          <p class="talk">"Architecture includes who runs it. I mapped each system to an owner before we built, so nothing shipped without someone accountable."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  I((Incluzion)) --> P[Product]
+  I --> G[Growth]
+  I --> O[Operations]
+  P --> P1[Jobs board + AI dev]
+  P --> P2[Community]
+  P --> P3[Learning platform]
+  P --> P4[FlexWorkTV]
+  G --> G1[Lead sourcing · Biz dev]
+  G --> G2[Email · Influencer · Video]
+  O --> O1[Grants + auto-submission]
+  O --> O2[Ops · Onboarding · HR]
+</pre>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="paycell">
+  <div class="era-head">
+    <span class="label">c. 2011 to 2014 · President</span>
+    <h2>Pay Cell Systems Inc.: prepaid wireless payments</h2>
+    <p>A payments platform that let prepaid wireless subscribers refill airtime by phone, text, web, app or in-store kiosk, settled through card gateways and fulfilled through airtime distributor APIs. Redrawn diagrams sit beside each record; the originals are below each one.</p>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain A · Multi-party platform &amp; revenue architecture</span>
+
+    <article class="sys" id="cellpay">
+      <div class="sys-head">
+        <h3>Cell Pay Distribution Platform</h3>
+        <p class="sub">A white-label payment layer that sits between subscribers, wireless retailers, airtime distributors (ISOs, master dealers) and the carriers' airtime systems, with money and airtime moving on separate rails.</p>
+        <div class="src"><span>Source: 8 original diagrams (Lucidchart and Visio exports)</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Small wireless stores could only take refill payments at the counter. Distributors held the airtime accounts and the carrier relationships, retailers held the customers, and nobody had a channel for paying after hours.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Four subscriber channels (phone, text, web, app) converge on one Cell Pay transaction service. The subscriber's number is validated before payment.</li>
+            <li>Card payment settles to the merchant of record (retailer or distributor) through the gateway credentials they configure in Cell Pay: Authorize.net, Stripe or PayPal. Cell Pay never holds the funds.</li>
+            <li>Airtime moves separately. Cell Pay pulls the PIN from the distributor's own airtime account (Emida, Z-Prepay, Prepay Nation) and loads it on the subscriber's number.</li>
+            <li>Three integration modes: retailer-only (retailer loads airtime through its own Epay portal on payment notice), distributor direct, and TSP / ISO, where the ISO sets one dealer rate (for example 6%) and earns override margin above it.</li>
+            <li>Onboarding is a 10-step flow: the distributor supplies gateway and airtime API credentials and discount rates, gets a branded retailer sign-up form, and each retailer receives a hotline number, a cellpay.us domain, app setup and an admin panel.</li>
+            <li>Revenue: $1 to $2 convenience fee per transaction plus $14.95 per month per retailer. The pitch to carriers was a 15 to 25% lift in volume.</li>
+            <li>A carrier taxonomy (GSM vs CDMA, Tier 1 carriers, Tier 2 MVNOs) drove which carriers could share fulfillment logic.</li>
+          </ul>
+          <div class="chips"><span class="chip">Multi-tenant SaaS</span><span class="chip">Merchant-of-record design</span><span class="chip">Partner API credentials</span><span class="chip">Revenue share model</span><span class="chip">Channel partner onboarding</span></div>
+          <p class="talk">"I kept funds and inventory on separate rails. The retailer or distributor stayed merchant of record, so we avoided money-transmitter exposure, and the platform only orchestrated."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  S[Subscriber] --> C{{Phone · Text · Web · App}}
+  C --> CP[Cell Pay<br/>number validation + orchestration]
+  CP -- card auth --> G[Merchant's gateway<br/>Authorize.net · Stripe · PayPal]
+  G -- funds --> M[(Retailer or distributor<br/>bank account)]
+  CP -- pull PIN --> D[Distributor airtime account<br/>Emida · Z-Prepay · Prepay Nation]
+  D --> T[Carrier / TSP]
+  CP -- load airtime --> S
+  CP -- fee $1–2 + $14.95/mo --> PC[Pay Cell Systems]
+  D -- commissions --> R[Retailer]
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Originals</h4>
+          <div class="thumbs">
+            <a href="pc/tsp-iso.jpg" target="_blank" rel="noopener"><img src="pc/tsp-iso.jpg" alt="Cell Pay TSP and ISO configuration diagram" loading="lazy">TSP / ISO configuration</a>
+            <a href="pc/distributor-direct.jpg" target="_blank" rel="noopener"><img src="pc/distributor-direct.jpg" alt="Distributor direct integration diagram" loading="lazy">Distributor direct integration</a>
+            <a href="pc/distributor-boss.jpg" target="_blank" rel="noopener"><img src="pc/distributor-boss.jpg" alt="Distributor integration diagram, Boss variant" loading="lazy">Distributor integration (Boss)</a>
+            <a href="pc/distributor-airnet.jpg" target="_blank" rel="noopener"><img src="pc/distributor-airnet.jpg" alt="Distributor integration diagram, Air Net variant" loading="lazy">Distributor integration (Air Net)</a>
+            <a href="pc/distributor-setup.jpg" target="_blank" rel="noopener"><img src="pc/distributor-setup.jpg" alt="Distributor and retailer setup flow" loading="lazy">Distributor and retailer setup</a>
+            <a href="pc/retailer-gateway.jpg" target="_blank" rel="noopener"><img src="pc/retailer-gateway.jpg" alt="Retailer gateway integration with Stripe, Authorize.net and PayPal" loading="lazy">Retailer gateway integration</a>
+            <a href="pc/hotline-model.jpg" target="_blank" rel="noopener"><img src="pc/hotline-model.jpg" alt="IVR hotline distribution model" loading="lazy">IVR hotline distribution model</a>
+            <a href="pc/carrier-taxonomy.jpg" target="_blank" rel="noopener"><img src="pc/carrier-taxonomy.jpg" alt="Carrier technology taxonomy" loading="lazy">Carrier taxonomy</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain B · Payment channels</span>
+
+    <article class="sys" id="ivr">
+      <div class="sys-head">
+        <h3>Pay-by-Phone IVR</h3>
+        <p class="sub">A 24-hour payment hotline that takes a card payment, buys airtime from the distributor API, and either credits the account or reads back a refill PIN, with per-carrier handling and recovery paths.</p>
+        <div class="src"><span>Source: 5 original call-flow diagrams, built on Ifbyphone</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Nine carriers, two fulfillment types and a caller who can hang up at any step. The flow had to stay short, survive slow upstream APIs, and recover abandoned payments.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Configuration lives outside the call flow: per-company processing fee, Authorize.net login and transaction key, airtime distributor credentials, customer service number and alert email.</li>
+            <li>Every call writes one call-detail record (caller ID, carrier, wireless number, price, gateway transaction ID and status, total, PIN). That record later powers PIN retrieval.</li>
+            <li>Airtime is purchased through the SoftGate <span class="mono">CellularVoucherPurchase</span> XML request.</li>
+            <li>Two fulfillment branches: real-time reload carriers (T-Mobile, AT&amp;T, Boost) get "payment added"; PIN carriers (Simple Mobile, H2O, Page Plus, Virgin, Airvoice, Cricket) get the PIN read back with carrier-specific load instructions, plus an SMS copy.</li>
+            <li>Auto-loading via "click to servo" runs asynchronously. If the response is not back when the caller asks, the IVR plays hold music until it arrives instead of failing.</li>
+            <li>Error branches separate "card charged, airtime failed" (transfer to customer service) from "PIN delayed" (callback promise), so a charge is never left unexplained.</li>
+            <li>Abandonment recovery: a hangup after choosing an amount triggers an SMS with a fee-waiver promo code. Promo codes also toggle the processing fee.</li>
+            <li>Retail attribution: callers enter a store referral code (first letters of the store name), so each payment is credited to the store that activated the line.</li>
+          </ul>
+          <div class="chips"><span class="chip">IVR / telephony</span><span class="chip">Authorize.net</span><span class="chip">XML API</span><span class="chip">Async fulfillment</span><span class="chip">Failure-path design</span><span class="chip">Attribution</span></div>
+          <p class="talk">"The hardest part was the partial-failure case: card approved, airtime not delivered. I gave it its own branch, its own script and a human handoff."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  A[Caller dials hotline] --> B[Store or promo code]
+  B --> C[Carrier · number · amount]
+  C --> D{Accept fee?}
+  D -- No --> X[Goodbye]
+  D -- Hang up --> H[Recovery SMS<br/>with fee waiver code]
+  D -- Yes --> E[Card → Authorize.net]
+  E -- Declined --> X
+  E -- Approved --> F[Airtime API purchase]
+  F -- RTR carrier --> G[Payment added<br/>to account]
+  F -- PIN carrier --> P[Read PIN + load steps<br/>SMS copy]
+  F -- Error --> CS[Transfer to<br/>customer service]
+  P -. async load .-> W[Hold until<br/>servo confirms]
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Originals</h4>
+          <div class="thumbs">
+            <a href="pc/ivr-master.jpg" target="_blank" rel="noopener"><img src="pc/ivr-master.jpg" alt="Master IVR flow with configuration, data model and SoftGate API" loading="lazy">Master flow + data model</a>
+            <a href="pc/ivr-post-auth.jpg" target="_blank" rel="noopener"><img src="pc/ivr-post-auth.jpg" alt="Post-authorization fulfillment and error handling" loading="lazy">Post-auth fulfillment</a>
+            <a href="pc/ivr-promo.jpg" target="_blank" rel="noopener"><img src="pc/ivr-promo.jpg" alt="IVR flow with promo code and hangup recovery" loading="lazy">Promo + hangup recovery</a>
+            <a href="pc/ivr-referral.jpg" target="_blank" rel="noopener"><img src="pc/ivr-referral.jpg" alt="IVR flow with store referral codes" loading="lazy">Store referral codes</a>
+            <a href="pc/ivr-retailer.jpg" target="_blank" rel="noopener"><img src="pc/ivr-retailer.jpg" alt="Retailer-branded IVR, two versions" loading="lazy">Retailer-branded IVR v1 / v2</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="kiosk">
+      <div class="sys-head">
+        <h3>Self-Service Payment Kiosk</h3>
+        <p class="sub">In-store kiosk software for airtime payments, phone and SIM sales, with a magnetic card reader, a bill acceptor, and the same airtime and messaging back end as the IVR.</p>
+        <div class="src"><span>Source: 4 original diagrams (one program flowchart, three menu-tree versions)</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>An unattended screen in a store has to recover from walk-aways at every step and must never hold a half-entered card.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>At start-up the program loads the service catalog from the site and subscribes to card-reader events, so a swipe can arrive at any point.</li>
+            <li>Every step has its own inactivity timeout (5, 5, 3 and 1 minutes, then 30 seconds after the receipt) that returns to the start screen.</li>
+            <li>A card swipe pre-fills the form; the program then asks only for CVV and ZIP.</li>
+            <li>Cash path: the bill acceptor validates bills against the plan price, with a cancel that returns the cash and an option to keep overpayment as credit.</li>
+            <li>The menu grew across three versions: v1 credit only, v2 adds cash, v3 adds a processing-fee consent screen and phone and SIM sales.</li>
+            <li>Shared back end: Authorize.net for cards, the airtime API, and the SMS service for PIN and receipt delivery.</li>
+          </ul>
+          <div class="chips"><span class="chip">Hardware events</span><span class="chip">State machine</span><span class="chip">Timeout handling</span><span class="chip">Shared services</span><span class="chip">Iterative releases</span></div>
+          <p class="talk">"The kiosk and the IVR were two front ends on one set of services. Adding a channel meant a new UI, not a new payment stack."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+stateDiagram-v2
+  [*] --> Init: load catalog, subscribe to card reader
+  Init --> Menu
+  Menu --> Provider: start pressed
+  Provider --> Amount: carrier selected
+  Amount --> Fee: amount chosen
+  Fee --> Pay: fee accepted
+  Fee --> Menu: declined
+  Pay --> Card: swipe
+  Pay --> Cash: insert bills
+  Card --> Confirm: CVV + ZIP
+  Cash --> Confirm: amount validated
+  Confirm --> Receipt: approved, airtime loaded
+  Receipt --> Menu: 30 s
+  Provider --> Menu: 5 min idle
+  Amount --> Menu: 5 min idle
+  Pay --> Menu: 3 min idle
+  Confirm --> Menu: 1 min idle
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Originals</h4>
+          <div class="thumbs">
+            <a href="pc/kiosk-flow.jpg" target="_blank" rel="noopener"><img src="pc/kiosk-flow.jpg" alt="Kiosk program flowchart" loading="lazy">Program flowchart</a>
+            <a href="pc/kiosk-tree-v1.jpg" target="_blank" rel="noopener"><img src="pc/kiosk-tree-v1.jpg" alt="Kiosk menu tree version 1" loading="lazy">Menu tree v1</a>
+            <a href="pc/kiosk-tree-v2.jpg" target="_blank" rel="noopener"><img src="pc/kiosk-tree-v2.jpg" alt="Kiosk menu tree version 2" loading="lazy">Menu tree v2</a>
+            <a href="pc/kiosk-tree-v3.jpg" target="_blank" rel="noopener"><img src="pc/kiosk-tree-v3.jpg" alt="Kiosk menu tree version 3" loading="lazy">Menu tree v3</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="fulfill">
+      <div class="sys-head">
+        <h3>Fulfillment &amp; Card Authentication</h3>
+        <p class="sub">Two supporting designs: a payer-authentication handshake for the mobile app, and an automated dialer that loads PINs on carriers that had no API.</p>
+        <div class="src"><span>Source: 1 UML sequence diagram, 1 dialer flow (original not shown; it contains a phone number)</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Card authentication</h4>
+          <p>The phone app posts to a payment gateway service, which looks up the card with Cardinal (a 3-D Secure provider) and redirects the user to enter verification. The gateway then authenticates and receives the values the back-end payment API needs. The app never touches the verification step.</p>
+          <h4>Automated dialer fulfillment</h4>
+          <ul>
+            <li>Some carriers accepted PINs only through their own phone menu. The dialer calls the carrier, waits, and sends DTMF tones to walk the menu: carrier prompt, phone number, confirmation, then the 16-digit PIN.</li>
+            <li>Voice recognition listens for 25 seconds and classifies the four outcomes (valid or invalid number, valid or invalid PIN).</li>
+            <li>Each outcome hangs up and sends its own success or failure email with number and PIN, so operations can fix failures by hand.</li>
+          </ul>
+          <div class="chips"><span class="chip">3-D Secure</span><span class="chip">UML sequence</span><span class="chip">Robotic process automation</span><span class="chip">Outcome classification</span></div>
+          <p class="talk">"When a partner has no API, you automate the interface they do have. The dialer was RPA on a phone line, years before that had a name."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+sequenceDiagram
+  actor U as User
+  participant A as Phone app
+  participant G as Gateway service
+  participant C as Cardinal (3-D Secure)
+  U->>A: Submit payment
+  A->>A: Open browser
+  A->>G: POST payment info
+  G->>C: Lookup
+  C-->>G: Redirect URL
+  G->>U: Redirect
+  U->>C: Enter verification
+  C-->>G: Redirect back
+  G->>C: Authenticate
+  C-->>G: Values for back-end API
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Originals</h4>
+          <div class="thumbs">
+            <a href="pc/3ds-sequence.jpg" target="_blank" rel="noopener"><img src="pc/3ds-sequence.jpg" alt="Card authentication sequence diagram" loading="lazy">Authentication sequence</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="domain">
+    <span class="label">Domain C · Early product design</span>
+
+    <article class="sys" id="roadmap">
+      <div class="sys-head">
+        <h3>Dealer Portal Roadmap</h3>
+        <p class="sub">Whiteboard roadmap for Prepaid-Wireless-Dealers.com, a hub for independent wireless dealers, with each workstream scoped and costed.</p>
+        <div class="src"><span>Source: whiteboard photo, Pay Cell Systems office</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Problem</h4>
+          <p>Cell Pay solved payments, but dealers also needed suppliers, messaging, support and reporting. The team needed one view of what to build, buy or white-label next, and what each would cost.</p>
+          <h4>Design</h4>
+          <ul>
+            <li>Content and community: news feeds, a supplier directory (master dealers, phones, accessories, SIMs, unlocking, repair) and forums, costed at $650.</li>
+            <li>Messaging: finish the mass-text service, $800 to build, priced at 4 cents per message.</li>
+            <li>Data services: number and PIN validators sold in bulk, with per-validation pricing worked out on the board.</li>
+            <li>Build vs buy: hosted IVR and the call center marked "find company" and "find white label" rather than build. The call center was modeled as SaaS with activation, login, FAQs, a $150 monthly fee and overage.</li>
+            <li>Channels: a mobile app at $2,300, forwarded mail, and a POS system for activations and airtime.</li>
+            <li>Partner layer: front-end reporting for ISOs, plus AdSense and affiliate revenue.</li>
+          </ul>
+          <div class="chips"><span class="chip">Product roadmap</span><span class="chip">Build vs buy</span><span class="chip">Cost estimation</span><span class="chip">Unit pricing</span><span class="chip">Partner reporting</span></div>
+          <p class="talk">"Each box had a price and a sourcing decision. Half the roadmap was integrate or white-label, which kept the build budget for the parts that were ours."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart TD
+  P((Prepaid-Wireless-Dealers.com))
+  P --> C1[Content<br/>news · supplier links · forums $650]
+  P --> C2[Messaging<br/>mass text $800 · 4¢/msg]
+  P --> C3[Data services<br/>number + PIN validators]
+  P --> C4[Buy / white-label<br/>hosted IVR · call center SaaS $150/mo]
+  P --> C5[Channels<br/>mobile app $2,300 · POS]
+  P --> C6[Partners<br/>ISO reporting · ads · affiliates]
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Original</h4>
+          <div class="thumbs">
+            <a href="pc/whiteboard-roadmap.jpg" target="_blank" rel="noopener"><img src="pc/whiteboard-roadmap.jpg" alt="Whiteboard roadmap for Prepaid-Wireless-Dealers.com" loading="lazy">Roadmap whiteboard</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="sys" id="features">
+      <div class="sys-head">
+        <h3>Feature Marketplace Sketch</h3>
+        <p class="sub">Whiteboard design for a Twitter-driven marketplace where buyers pay recording artists for guest features, with escrow and file delivery.</p>
+        <div class="src"><span>Source: whiteboard photo</span></div>
+      </div>
+      <div class="sys-body">
+        <div>
+          <h4>Design</h4>
+          <ul>
+            <li>Separate buyer and seller sign-ups, each auto-following the brand accounts and announced with a tweet.</li>
+            <li>Artist profiles with a request path that reaches the artist by email, inbox or Twitter direct message.</li>
+            <li>When the artist agrees, the buyer's payment goes into escrow. Funds release when the artist marks the work complete.</li>
+            <li>Delivered audio lands in a shared Dropbox, and a closing tweet tags buyer, seller and artist as social proof.</li>
+          </ul>
+          <div class="chips"><span class="chip">Two-sided marketplace</span><span class="chip">Escrow</span><span class="chip">Social as event bus</span></div>
+          <p class="talk">"Every state change emits a public event. The marketing was a side effect of the workflow."</p>
+        </div>
+        <div class="diagram">
+<pre class="mermaid">
+flowchart LR
+  B[Buyer sign-up] --> L[Browse artists]
+  SE[Seller sign-up] --> P[Artist profile]
+  L --> R[Request feature]
+  P --> R
+  R --> A{Artist agrees?}
+  A -- Yes --> E[(Escrow)]
+  E --> D[Artist delivers<br/>to Dropbox]
+  D --> T[Release funds<br/>+ announce tweet]
+</pre>
+        </div>
+        <div class="originals">
+          <h4>Original</h4>
+          <div class="thumbs">
+            <a href="pc/whiteboard-marketplace.jpg" target="_blank" rel="noopener"><img src="pc/whiteboard-marketplace.jpg" alt="Whiteboard sketch of the feature marketplace" loading="lazy">Whiteboard</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+
+<section id="held">
+  <div class="note">
+    <h3>Held back from the portfolio</h3>
+    <ul>
+      <li><b>API flowchart example</b>: Lucid's stock REST template, not original work.</li>
+      <li><b>Blank diagram</b>: empty file.</li>
+      <li><b>FB Lead Gen Flow</b>: relies on multiple warmed Facebook accounts behind proxies for outreach. That pattern breaks Meta's terms, and a reviewer at a SaaS or platform company would read it as a risk. The GroupTrack → webhook → Bardeen → GHL enrichment chain inside it is sound and could be redrawn on its own.</li>
+      <li><b>Automated dialer original</b>: described above but not shown, because the diagram contains a real wireless number used in testing.</li>
+      <li>Client contact first names and the business street address in the lead-flow diagram are left out of this page. The original Lucid file still contains them; scrub it before sharing that link externally.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Original Lucid links open only for accounts with access to the files. Redrawn diagrams on this page are the shareable versions.</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true,theme:window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"default",securityLevel:"strict"});</script>
+</body></html>
